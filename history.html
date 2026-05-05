@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SeasonalRank — Rankings Archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F3EE;--ink:#1C1917;--rose:#C4826A;--sage:#8A9E8C;--gold:#B89A6A;--fog:#E2DDD7;--warm:#FBF8F5;--blush:#E8C4B0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;border-bottom:1px solid var(--fog);position:sticky;top:0;background:var(--cream);z-index:100}
+.back-btn{display:flex;align-items:center;gap:.4rem;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s}
+.back-btn:hover{color:var(--rose)}
+.topbar-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;letter-spacing:-.03em;cursor:pointer}
+.topbar-logo span{font-style:italic;color:var(--rose)}
+
+/* HERO */
+.hero{text-align:center;padding:2rem 1.5rem 1.25rem;border-bottom:1px solid var(--fog)}
+.hero-eyebrow{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--rose);margin-bottom:.5rem}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,4vw,40px);font-style:italic;line-height:1.05;margin-bottom:.4rem}
+.hero-sub{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold)}
+
+/* FILTER SEASONS */
+.season-filter{display:flex;justify-content:center;gap:0;padding:1rem 1.5rem;border-bottom:1px solid var(--fog)}
+.season-btn{font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:.35rem 1rem;border:1px solid var(--fog);border-right:none;background:transparent;color:var(--ink);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.season-btn:last-child{border-right:1px solid var(--fog)}
+.season-btn.active{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+/* WEEKS GRID */
+.archive-section{padding:1.5rem}
+.section-rule{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.section-rule::before,.section-rule::after{content:'';flex:1;height:1px;background:var(--fog)}
+.section-rule-text{font-size:7px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+
+.weeks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--fog);border:1px solid var(--fog)}
+.week-card{background:var(--warm);padding:1rem 1.1rem;cursor:pointer;transition:background .18s;text-decoration:none;color:inherit;display:block}
+.week-card:hover{background:var(--cream)}
+.week-card:hover .wc-arrow{transform:translateX(3px)}
+.wc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.6rem}
+.wc-season{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:var(--rose)}
+.wc-arrow{font-size:11px;color:var(--fog);transition:transform .2s}
+.wc-date{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:.3rem;line-height:1.2}
+.wc-top1{font-family:'DM Serif Display',serif;font-size:12px;font-style:italic;color:var(--ink);margin-bottom:.5rem}
+.wc-top1 span{font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-style:normal;display:block;margin-bottom:2px}
+.wc-stats{display:flex;gap:.75rem}
+.wc-stat{font-size:8px;letter-spacing:.1em;color:var(--gold)}
+.wc-stat b{color:var(--sage);font-weight:500}
+
+/* WEEK DETAIL PANEL */
+.week-detail{display:none;background:var(--warm);border:1px solid var(--fog);border-top:none;padding:1.5rem}
+.week-detail.open{display:block}
+.wd-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem}
+.wd-title{font-family:'DM Serif Display',serif;font-size:20px;font-style:italic}
+.wd-close{font-size:9px;letter-spacing:.18em;text-transform:uppercase;background:none;border:1px solid var(--fog);padding:.3rem .8rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--gold);transition:all .15s}
+.wd-close:hover{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+
+/* Mini rank table inside detail */
+.mini-table{width:100%;border-collapse:collapse;font-size:12px}
+.mini-table th{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);padding:.4rem .6rem;text-align:left;border-bottom:1px solid var(--fog);background:var(--cream)}
+.mini-table td{padding:.5rem .6rem;border-bottom:1px solid var(--fog);vertical-align:middle}
+.mini-table tr:last-child td{border-bottom:none}
+.mini-rank{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;text-align:center;width:30px}
+.mini-name{font-family:'DM Serif Display',serif;font-size:12px;font-style:italic}
+.mini-cat{font-size:7px;letter-spacing:.15em;text-transform:uppercase;padding:1px 5px;display:inline-block;margin-left:4px;vertical-align:middle}
+.mini-score{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;text-align:right}
+.mini-mom{font-size:9px;font-weight:500;text-align:right}
+
+/* Loading / empty */
+.loading-msg{text-align:center;padding:3rem;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.empty-msg{text-align:center;padding:3rem;font-family:'DM Serif Display',serif;font-size:16px;font-style:italic;color:var(--gold);grid-column:1/-1}
+
+/* Footer */
+.page-footer{border-top:1px solid var(--fog);margin-top:2rem;padding:.9rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.footer-note{font-size:7px;letter-spacing:.1em;color:var(--gold)}
+.footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;font-style:italic;color:var(--rose);opacity:.4}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <button class="back-btn" onclick="location.href='index.html'">
+    ← Back to rankings
+  </button>
+  <div class="topbar-logo" onclick="location.href='index.html'">Seasonal<span>Rank</span></div>
+  <div style="width:100px"></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Every week on record</div>
+  <h1 class="hero-title">Rankings Archive</h1>
+  <div class="hero-sub">US Market · Spring 2026 — Browse past weekly rankings</div>
+</section>
+
+<div class="season-filter" id="seasonFilter">
+  <button class="season-btn active" data-season="all">All</button>
+  <button class="season-btn" data-season="Spring">Spring</button>
+  <button class="season-btn" data-season="Summer">Summer</button>
+  <button class="season-btn" data-season="Fall">Fall</button>
+  <button class="season-btn" data-season="Winter">Winter</button>
+</div>
+
+<section class="archive-section">
+  <div class="section-rule"><div class="section-rule-text">Weekly editions — click any week to expand</div></div>
+  <div class="weeks-grid" id="weeksGrid">
+    <div class="loading-msg" style="grid-column:1/-1">Loading archive<span>...</span></div>
+  </div>
+  <div class="week-detail" id="weekDetail"></div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-note">Rankings updated every Monday · Source: Google Trends + TikTok + YouTube + Pinterest · geo: US</div>
+  <div class="footer-logo">SR</div>
+</footer>
+
+<script>
+const CAT_COLOR={Bottoms:'#185FA5',Tops:'#0F6E56',Dresses:'#993556',Footwear:'#854F0B',Outerwear:'#534AB7',Aesthetic:'#C4826A'};
+
+let allWeeks = [];
+let activeWeek = null;
+
+// Load rankings index
+async function loadIndex(){
+  try{
+    const res = await fetch('rankings/index.json?v='+Date.now());
+    if(!res.ok) throw new Error('no index');
+    const data = await res.json();
+    allWeeks = data.weeks || [];
+    if(!allWeeks.length) throw new Error('empty');
+    renderGrid('all');
+  } catch(e){
+    // Use fallback weeks for demo
+    allWeeks = FALLBACK_INDEX;
+    renderGrid('all');
+  }
+}
+
+function renderGrid(seasonFilter){
+  const filtered = seasonFilter==='all'
+    ? allWeeks
+    : allWeeks.filter(w=>w.season===seasonFilter);
+
+  const grid = document.getElementById('weeksGrid');
+  grid.innerHTML = '';
+
+  if(!filtered.length){
+    grid.innerHTML = '<div class="empty-msg">No rankings yet for this season</div>';
+    return;
+  }
+
+  filtered.forEach((w,i)=>{
+    const card = document.createElement('div');
+    card.className = 'week-card';
+    card.dataset.date = w.date;
+    card.innerHTML = `
+      <div class="wc-top">
+        <div class="wc-season">${w.season} ${w.year}</div>
+        <div class="wc-arrow">↓</div>
+      </div>
+      <div class="wc-date">${w.label}</div>
+      <div class="wc-top1"><span>Top style</span>${w.top_style}</div>
+      <div class="wc-stats">
+        <div class="wc-stat"><b>${w.rising_count}</b> rising</div>
+        <div class="wc-stat">Week ${allWeeks.length - i}</div>
+      </div>`;
+    card.addEventListener('click', ()=>loadWeek(w.date, w.label, card));
+    grid.appendChild(card);
+  });
+}
+
+async function loadWeek(date, label, card){
+  // Toggle if same card clicked
+  if(activeWeek === date){
+    closeDetail();
+    return;
+  }
+
+  // Highlight selected card
+  document.querySelectorAll('.week-card').forEach(c=>c.style.background='');
+  card.style.background = 'var(--fog)';
+  activeWeek = date;
+
+  const detail = document.getElementById('weekDetail');
+  detail.className = 'week-detail open';
+  detail.innerHTML = `<div class="loading-msg">Loading ${label}...</div>`;
+
+  try{
+    const res = await fetch(`rankings/${date}.json?v=`+Date.now());
+    if(!res.ok) throw new Error('not found');
+    const data = await res.json();
+    renderDetail(data, label);
+  } catch(e){
+    // Show fallback demo data
+    renderDetail(FALLBACK_WEEK, label);
+  }
+}
+
+function renderDetail(data, label){
+  const detail = document.getElementById('weekDetail');
+  const top20 = (data.styles||[]).slice(0,20);
+
+  detail.innerHTML = `
+    <div class="wd-header">
+      <div class="wd-title">Week of ${label}</div>
+      <button class="wd-close" onclick="closeDetail()">Close ×</button>
+    </div>
+    <table class="mini-table">
+      <thead>
+        <tr>
+          <th style="width:36px">#</th>
+          <th>Style</th>
+          <th style="text-align:right">Score</th>
+          <th style="text-align:right">Momentum</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${top20.map((s,i)=>`
+          <tr>
+            <td class="mini-rank">${i+1}</td>
+            <td>
+              <span class="mini-name">${s.name}</span>
+              <span class="mini-cat" style="background:${CAT_COLOR[s.cat]}18;color:${CAT_COLOR[s.cat]}">${s.cat}</span>
+            </td>
+            <td class="mini-score">${s.final_score||s.score||'—'}</td>
+            <td class="mini-mom" style="color:${(s.momentum_pct||0)>=0?'#27500a':'#7a1f1f'}">${(s.momentum_pct||0)>=0?'+':''}${s.momentum_pct||0}%</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+
+  // Scroll to detail
+  detail.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function closeDetail(){
+  document.getElementById('weekDetail').className = 'week-detail';
+  document.querySelectorAll('.week-card').forEach(c=>c.style.background='');
+  activeWeek = null;
+}
+
+// Season filter
+document.getElementById('seasonFilter').addEventListener('click', e=>{
+  const btn = e.target.closest('.season-btn');
+  if(!btn) return;
+  document.querySelectorAll('.season-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  closeDetail();
+  renderGrid(btn.dataset.season);
+});
+
+// ── FALLBACK DATA (shown before first real run) ───────────────────────────────
+const FALLBACK_INDEX = [
+  {date:"2026-04-22",label:"April 22, 2026",season:"Spring",year:2026,top_style:"Barrel leg jeans",rising_count:14},
+  {date:"2026-04-15",label:"April 15, 2026",season:"Spring",year:2026,top_style:"Coquette aesthetic",rising_count:11},
+  {date:"2026-04-08",label:"April 08, 2026",season:"Spring",year:2026,top_style:"Ballet flat",rising_count:9},
+  {date:"2026-04-01",label:"April 01, 2026",season:"Spring",year:2026,top_style:"Sheer overlay dress",rising_count:8},
+  {date:"2026-03-25",label:"March 25, 2026",season:"Spring",year:2026,top_style:"Varsity jacket",rising_count:12},
+  {date:"2026-03-18",label:"March 18, 2026",season:"Spring",year:2026,top_style:"Trench coat",rising_count:10},
+  {date:"2026-03-11",label:"March 11, 2026",season:"Spring",year:2026,top_style:"Linen wide trousers",rising_count:7},
+  {date:"2026-03-04",label:"March 04, 2026",season:"Spring",year:2026,top_style:"Oversized blazer",rising_count:6},
+];
+
+const FALLBACK_WEEK = {
+  styles:[
+    {name:"Barrel leg jeans",   cat:"Bottoms",  final_score:72,momentum_pct:42.1},
+    {name:"Linen wide trousers",cat:"Bottoms",  final_score:68,momentum_pct:40.7},
+    {name:"Sheer overlay dress", cat:"Dresses",  final_score:65,momentum_pct:55.6},
+    {name:"Coquette aesthetic",  cat:"Aesthetic",final_score:63,momentum_pct:16.0},
+    {name:"Ballet flat",         cat:"Footwear", final_score:61,momentum_pct:24.0},
+    {name:"Broderie top",        cat:"Tops",     final_score:60,momentum_pct:60.0},
+    {name:"Maxi slip dress",     cat:"Dresses",  final_score:58,momentum_pct:24.1},
+    {name:"Cargo wide leg",      cat:"Bottoms",  final_score:55,momentum_pct:33.1},
+    {name:"Varsity jacket",      cat:"Outerwear",final_score:54,momentum_pct:5.9},
+    {name:"Butter yellow set",   cat:"Aesthetic",final_score:52,momentum_pct:48.6},
+    {name:"Platform mule",       cat:"Footwear", final_score:51,momentum_pct:31.5},
+    {name:"Lace trim cami",      cat:"Tops",     final_score:49,momentum_pct:38.4},
+    {name:"Denim midi skirt",    cat:"Bottoms",  final_score:48,momentum_pct:16.3},
+    {name:"Bubble hem skirt",    cat:"Dresses",  final_score:47,momentum_pct:66.1},
+    {name:"Trench coat",         cat:"Outerwear",final_score:46,momentum_pct:10.2},
+    {name:"Ruched sundress",     cat:"Dresses",  final_score:44,momentum_pct:33.3},
+    {name:"Mary jane heel",      cat:"Footwear", final_score:43,momentum_pct:21.4},
+    {name:"Oversized blazer",    cat:"Outerwear",final_score:42,momentum_pct:8.5},
+    {name:"Tie-front top",       cat:"Tops",     final_score:41,momentum_pct:46.4},
+    {name:"Ribbed tank set",     cat:"Tops",     final_score:39,momentum_pct:21.9},
+  ]
+};
+
+loadIndex();
+</script>
+</body>
+</html>
