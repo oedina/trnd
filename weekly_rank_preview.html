@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SeasonalRank — This Week's Score Breakdown</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F3EE;--ink:#1C1917;--rose:#C4826A;--sage:#8A9E8C;
+  --gold:#B89A6A;--fog:#E2DDD7;--warm:#FBF8F5;--blush:#E8C4B0;
+  --tiktok:#ff0050;--youtube:#FF0000;--google:#4285F4;--pinterest:#E60023;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;padding:2rem 1.5rem 4rem}
+
+/* HEADER */
+.header{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--ink)}
+.logo{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;letter-spacing:-.04em}
+.logo span{font-style:italic;color:var(--rose)}
+.subtitle{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);margin-top:.3rem}
+
+/* FORMULA BOX */
+.formula-box{background:var(--warm);border:1px solid var(--fog);padding:1.25rem 1.5rem;margin-bottom:1.5rem}
+.formula-title{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.formula{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center}
+.formula-part{text-align:center;padding:.5rem .75rem;border:1px solid var(--fog)}
+.formula-part-label{font-size:7px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:3px}
+.formula-part-val{font-family:'Playfair Display',serif;font-size:15px;font-weight:700}
+.formula-op{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--gold)}
+.fp-google{border-color:var(--google);color:var(--google)}
+.fp-tiktok{border-color:var(--tiktok);color:var(--tiktok)}
+.fp-youtube{border-color:var(--youtube);color:var(--youtube)}
+.fp-pinterest{border-color:var(--pinterest);color:var(--pinterest)}
+.fp-final{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.fp-final .formula-part-label{color:var(--blush)}
+.fp-final .formula-part-val{color:var(--cream)}
+
+/* SIGNAL LEGEND */
+.signal-legend{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;justify-content:center}
+.sig-badge{display:flex;align-items:center;gap:.35rem;font-size:8px;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .6rem;border:1px solid}
+.sig-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* TABS */
+.tabs{display:flex;gap:0;margin-bottom:1px;border:1px solid var(--fog);border-bottom:none;width:fit-content}
+.tab{font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:.4rem 1rem;background:var(--fog);color:var(--gold);cursor:pointer;border:none;font-family:'DM Sans',sans-serif;border-right:1px solid var(--cream)}
+.tab:last-child{border-right:none}
+.tab.active{background:var(--ink);color:var(--cream)}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;border:1px solid var(--fog)}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:680px}
+thead th{background:var(--ink);color:var(--cream);font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:.6rem .75rem;text-align:left;font-weight:400;white-space:nowrap}
+thead th.center{text-align:center}
+tbody tr{border-bottom:1px solid var(--fog);transition:background .15s}
+tbody tr:hover{background:var(--fog)}
+tbody tr:last-child{border-bottom:none}
+tbody td{padding:.65rem .75rem;vertical-align:middle}
+
+/* Rank cell */
+.rank-cell{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;text-align:center;width:36px}
+.move-badge{font-size:7px;letter-spacing:.08em;padding:2px 5px;display:inline-block;margin-left:4px}
+.mu{background:#d4edda;color:#1a5c2a}
+.md{background:#fde8e8;color:#7a1f1f}
+.mn{background:var(--blush);color:#7a3b22}
+.mf{background:var(--fog);color:var(--gold)}
+
+/* Style name */
+.style-name{font-family:'DM Serif Display',serif;font-size:13px;font-style:italic}
+.cat-badge{font-size:7px;letter-spacing:.15em;text-transform:uppercase;padding:1px 5px;display:inline-block;margin-left:5px;vertical-align:middle}
+
+/* Signal bar cells */
+.sig-cell{text-align:center;width:90px}
+.sig-val{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;display:block;margin-bottom:2px}
+.sig-bar-track{height:3px;background:var(--fog);border-radius:2px;margin:0 auto;width:60px}
+.sig-bar-fill{height:3px;border-radius:2px}
+
+/* Final score */
+.final-cell{text-align:center;width:80px}
+.final-score{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;display:block}
+.final-mom{font-size:8px;font-weight:500;display:block;margin-top:1px}
+
+/* Photo indicator */
+.photo-cell{text-align:center;font-size:10px}
+.photo-yes{color:var(--sage)}
+.photo-no{color:var(--fog)}
+
+/* BREAKDOWN VIEW */
+.breakdown{padding:1.5rem;background:var(--warm);border:1px solid var(--fog);border-top:none;display:none}
+.breakdown.active{display:block}
+.bk-title{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.bk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem}
+.bk-card{border:1px solid var(--fog);padding:.75rem;background:var(--cream)}
+.bk-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.bk-card-source{font-size:8px;letter-spacing:.15em;text-transform:uppercase;font-weight:500}
+.bk-card-weight{font-size:7px;color:var(--gold)}
+.bk-card-metric{font-family:'Playfair Display',serif;font-size:24px;font-weight:700}
+.bk-card-sublabel{font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+.bk-card-detail{font-size:10px;color:#5a5450;margin-top:.5rem;line-height:1.5}
+
+/* WHAT SCRIPT OUTPUTS */
+.code-block{background:var(--ink);color:#e8e0d4;font-family:'Courier New',monospace;font-size:10px;padding:1rem 1.25rem;line-height:1.8;overflow-x:auto;border-radius:0;margin-top:1.5rem}
+.code-comment{color:#8a9e8c}
+.code-key{color:#c4826a}
+.code-val{color:#b89a6a}
+.code-num{color:#7ecf8a}
+
+/* ACCURACY NOTE */
+.accuracy-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--fog);border:1px solid var(--fog);margin-top:1.5rem}
+.acc-cell{background:var(--warm);padding:.75rem 1rem;text-align:center}
+.acc-num{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:2px}
+.acc-label{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)}
+
+.section-rule{display:flex;align-items:center;gap:.75rem;margin:1.5rem 0 1rem}
+.section-rule::before,.section-rule::after{content:'';flex:1;height:1px;background:var(--fog)}
+.section-rule-text{font-size:7px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Seasonal<span>Rank</span></div>
+  <div class="subtitle">This week's ranking breakdown · Spring 2026 · US Market · Week of Apr 22</div>
+</div>
+
+<!-- FORMULA -->
+<div class="formula-box">
+  <div class="formula-title">How this week's final score is calculated</div>
+  <div class="formula" id="formulaRow">
+    <div class="formula-part fp-google"><div class="formula-part-label">Google Trends</div><div class="formula-part-val">× 40%</div></div>
+    <div class="formula-op">+</div>
+    <div class="formula-part fp-tiktok"><div class="formula-part-label">TikTok Creative</div><div class="formula-part-val">× 30%</div></div>
+    <div class="formula-op">+</div>
+    <div class="formula-part fp-youtube"><div class="formula-part-label">YouTube API</div><div class="formula-part-val">× 20%</div></div>
+    <div class="formula-op">+</div>
+    <div class="formula-part fp-pinterest"><div class="formula-part-label">Pinterest</div><div class="formula-part-val">× 10%</div></div>
+    <div class="formula-op">=</div>
+    <div class="formula-part fp-final"><div class="formula-part-label">Final Score</div><div class="formula-part-val">0–100</div></div>
+  </div>
+</div>
+
+<!-- SIGNAL LEGEND -->
+<div class="signal-legend">
+  <div class="sig-badge" style="border-color:var(--google);color:var(--google)"><div class="sig-dot" style="background:var(--google)"></div>Google Trends</div>
+  <div class="sig-badge" style="border-color:var(--tiktok);color:var(--tiktok)"><div class="sig-dot" style="background:var(--tiktok)"></div>TikTok Creative Center</div>
+  <div class="sig-badge" style="border-color:var(--youtube);color:var(--youtube)"><div class="sig-dot" style="background:var(--youtube)"></div>YouTube Data API</div>
+  <div class="sig-badge" style="border-color:var(--pinterest);color:var(--pinterest)"><div class="sig-dot" style="background:var(--pinterest)"></div>Pinterest Trends</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showView('table')">Ranking table</button>
+  <button class="tab" onclick="showView('breakdown')">Signal breakdown</button>
+  <button class="tab" onclick="showView('json')">Script output (JSON)</button>
+</div>
+
+<!-- TABLE VIEW -->
+<div id="view-table">
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr>
+      <th class="center">#</th>
+      <th>Style</th>
+      <th class="center" style="color:#aaa4ff">● Google<br><span style="font-size:7px;opacity:.7">40%</span></th>
+      <th class="center" style="color:#ff8099">● TikTok<br><span style="font-size:7px;opacity:.7">30%</span></th>
+      <th class="center" style="color:#ff9999">● YouTube<br><span style="font-size:7px;opacity:.7">20%</span></th>
+      <th class="center" style="color:#ff9999">● Pinterest<br><span style="font-size:7px;opacity:.7">10%</span></th>
+      <th class="center">Final Score</th>
+      <th class="center">Photo</th>
+    </tr>
+  </thead>
+  <tbody id="rankTableBody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- BREAKDOWN VIEW -->
+<div id="view-breakdown" style="display:none">
+  <div id="breakdownCards" class="breakdown active"></div>
+</div>
+
+<!-- JSON VIEW -->
+<div id="view-json" style="display:none">
+<div class="code-block" id="jsonOutput"></div>
+</div>
+
+<!-- ACCURACY -->
+<div class="section-rule"><div class="section-rule-text">Expected accuracy of this method</div></div>
+<div class="accuracy-strip">
+  <div class="acc-cell">
+    <div class="acc-num" style="color:var(--sage)">~75%</div>
+    <div class="acc-label">Short-term accuracy<br>(1–2 weeks)</div>
+  </div>
+  <div class="acc-cell">
+    <div class="acc-num" style="color:var(--gold)">~60%</div>
+    <div class="acc-label">Medium-term accuracy<br>(3–4 weeks)</div>
+  </div>
+  <div class="acc-cell">
+    <div class="acc-num" style="color:var(--rose)">~45%</div>
+    <div class="acc-label">Long-term accuracy<br>(seasonal)</div>
+  </div>
+</div>
+
+<script>
+const CAT_COLOR={Bottoms:'#185FA5',Tops:'#0F6E56',Dresses:'#993556',Footwear:'#854F0B',Outerwear:'#534AB7',Aesthetic:'#C4826A'};
+
+// Simulated raw signals per style
+// google=Google Trends score, tiktok=hashtag view momentum, youtube=video volume, pinterest=saves index
+const RAW = [
+  {name:'Barrel leg jeans',    cat:'Bottoms',   google:72, tiktok:88, youtube:65, pinterest:70, prev:5,   photo:true,  tiktok_tag:'#barreljeans',    tiktok_views:'2.8B', youtube_vids:'142K', google_kw:'barrel leg jeans'},
+  {name:'Linen wide trousers', cat:'Bottoms',   google:68, tiktok:74, youtube:58, pinterest:80, prev:8,   photo:true,  tiktok_tag:'#linentrousers',   tiktok_views:'890M', youtube_vids:'88K',  google_kw:'linen wide leg pants'},
+  {name:'Sheer overlay dress', cat:'Dresses',   google:65, tiktok:82, youtube:54, pinterest:75, prev:12,  photo:true,  tiktok_tag:'#sheerdress',      tiktok_views:'1.4B', youtube_vids:'76K',  google_kw:'sheer overlay dress'},
+  {name:'Coquette aesthetic',  cat:'Aesthetic', google:63, tiktok:91, youtube:78, pinterest:88, prev:4,   photo:true,  tiktok_tag:'#coquetteaesthetic',tiktok_views:'4.2B',youtube_vids:'210K', google_kw:'coquette aesthetic outfit'},
+  {name:'Ballet flat',         cat:'Footwear',  google:61, tiktok:70, youtube:55, pinterest:82, prev:6,   photo:true,  tiktok_tag:'#balletflats',     tiktok_views:'1.1B', youtube_vids:'95K',  google_kw:'ballet flat shoes'},
+  {name:'Broderie top',        cat:'Tops',      google:60, tiktok:65, youtube:48, pinterest:72, prev:18,  photo:true,  tiktok_tag:'#broderietop',     tiktok_views:'420M', youtube_vids:'52K',  google_kw:'broderie anglaise top'},
+  {name:'Maxi slip dress',     cat:'Dresses',   google:58, tiktok:72, youtube:61, pinterest:78, prev:7,   photo:true,  tiktok_tag:'#slipperdress',    tiktok_views:'980M', youtube_vids:'118K', google_kw:'maxi slip dress'},
+  {name:'Cargo wide leg',      cat:'Bottoms',   google:55, tiktok:68, youtube:52, pinterest:60, prev:10,  photo:true,  tiktok_tag:'#cargopants',      tiktok_views:'3.1B', youtube_vids:'165K', google_kw:'cargo wide leg pants'},
+  {name:'Varsity jacket',      cat:'Outerwear', google:54, tiktok:60, youtube:70, pinterest:58, prev:3,   photo:true,  tiktok_tag:'#varsityjacket',   tiktok_views:'1.8B', youtube_vids:'188K', google_kw:'varsity jacket women'},
+  {name:'Butter yellow set',   cat:'Aesthetic', google:52, tiktok:78, youtube:44, pinterest:68, prev:null,photo:true,  tiktok_tag:'#butteryellow',    tiktok_views:'640M', youtube_vids:'38K',  google_kw:'butter yellow matching set'},
+  {name:'Platform mule',       cat:'Footwear',  google:51, tiktok:58, youtube:42, pinterest:64, prev:14,  photo:true,  tiktok_tag:'#platformmules',   tiktok_views:'520M', youtube_vids:'44K',  google_kw:'platform mule shoes'},
+  {name:'Lace trim cami',      cat:'Tops',      google:49, tiktok:62, youtube:38, pinterest:70, prev:20,  photo:true,  tiktok_tag:'#lacecami',        tiktok_views:'380M', youtube_vids:'31K',  google_kw:'lace trim camisole'},
+  {name:'Denim midi skirt',    cat:'Bottoms',   google:48, tiktok:55, youtube:46, pinterest:66, prev:9,   photo:true,  tiktok_tag:'#denimmidiskirt',  tiktok_views:'760M', youtube_vids:'82K',  google_kw:'denim midi skirt'},
+  {name:'Bubble hem skirt',    cat:'Dresses',   google:47, tiktok:80, youtube:35, pinterest:58, prev:null,photo:true,  tiktok_tag:'#bubbleskirt',     tiktok_views:'290M', youtube_vids:'24K',  google_kw:'bubble hem skirt'},
+  {name:'Trench coat',         cat:'Outerwear', google:46, tiktok:50, youtube:58, pinterest:62, prev:11,  photo:true,  tiktok_tag:'#trenchcoat',      tiktok_views:'2.2B', youtube_vids:'145K', google_kw:'trench coat women'},
+  {name:'Ruched sundress',     cat:'Dresses',   google:44, tiktok:52, youtube:36, pinterest:60, prev:16,  photo:true,  tiktok_tag:'#rucheddress',     tiktok_views:'450M', youtube_vids:'42K',  google_kw:'ruched sundress'},
+  {name:'Mary jane heel',      cat:'Footwear',  google:43, tiktok:48, youtube:40, pinterest:72, prev:13,  photo:true,  tiktok_tag:'#maryjaneshoes',   tiktok_views:'680M', youtube_vids:'56K',  google_kw:'mary jane heels'},
+  {name:'Oversized blazer',    cat:'Outerwear', google:42, tiktok:44, youtube:62, pinterest:55, prev:2,   photo:true,  tiktok_tag:'#oversizedblazer', tiktok_views:'1.5B', youtube_vids:'175K', google_kw:'oversized blazer women'},
+  {name:'Tie-front top',       cat:'Tops',      google:41, tiktok:58, youtube:32, pinterest:54, prev:null,photo:true,  tiktok_tag:'#tiefronttop',     tiktok_views:'210M', youtube_vids:'28K',  google_kw:'tie front top women'},
+  {name:'Ribbed tank set',     cat:'Tops',      google:39, tiktok:46, youtube:34, pinterest:52, prev:15,  photo:true,  tiktok_tag:'#ribbedset',       tiktok_views:'340M', youtube_vids:'36K',  google_kw:'ribbed tank matching set'},
+];
+
+// Calculate final score
+function calcFinal(r){
+  return Math.round(r.google*0.40 + r.tiktok*0.30 + r.youtube*0.20 + r.pinterest*0.10);
+}
+
+// Sort by final score
+const STYLES = RAW.map(r=>({...r, final:calcFinal(r)})).sort((a,b)=>b.final-a.final);
+
+// Momentum vs prev week (simulated)
+const prevScores = {
+  'Barrel leg jeans':68,'Linen wide trousers':62,'Sheer overlay dress':58,
+  'Coquette aesthetic':75,'Ballet flat':60,'Broderie top':50,'Maxi slip dress':64,
+  'Cargo wide leg':60,'Varsity jacket':68,'Butter yellow set':null,
+  'Platform mule':54,'Lace trim cami':48,'Denim midi skirt':58,
+  'Bubble hem skirt':null,'Trench coat':56,'Ruched sundress':50,
+  'Mary jane heel':54,'Oversized blazer':70,'Tie-front top':null,'Ribbed tank set':50
+};
+
+function moveBadge(s,rank){
+  if(s.prev===null)return{cls:'mn',txt:'NEW'};
+  if(s.prev>rank)return{cls:'mu',txt:`↑${s.prev-rank}`};
+  if(s.prev<rank)return{cls:'md',txt:`↓${rank-s.prev}`};
+  return{cls:'mf',txt:'—'};
+}
+
+function sigBar(val, color){
+  return `<div class="sig-bar-track"><div class="sig-bar-fill" style="width:${val}%;background:${color}"></div></div>`;
+}
+
+// Render table
+const tbody = document.getElementById('rankTableBody');
+STYLES.forEach((s,i)=>{
+  const rank=i+1;
+  const mb=moveBadge(s,rank);
+  const color=CAT_COLOR[s.cat];
+  const prevScore=prevScores[s.name];
+  const mom=prevScore?Math.round((s.final-prevScore)/prevScore*100):null;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td class="rank-cell">${rank}<span class="move-badge ${mb.cls}">${mb.txt}</span></td>
+    <td>
+      <span class="style-name">${s.name}</span>
+      <span class="cat-badge" style="background:${color}18;color:${color}">${s.cat}</span>
+    </td>
+    <td class="sig-cell">
+      <span class="sig-val" style="color:var(--google)">${s.google}</span>
+      ${sigBar(s.google,'var(--google)')}
+    </td>
+    <td class="sig-cell">
+      <span class="sig-val" style="color:var(--tiktok)">${s.tiktok}</span>
+      ${sigBar(s.tiktok,'var(--tiktok)')}
+    </td>
+    <td class="sig-cell">
+      <span class="sig-val" style="color:var(--youtube)">${s.youtube}</span>
+      ${sigBar(s.youtube,'var(--youtube)')}
+    </td>
+    <td class="sig-cell">
+      <span class="sig-val" style="color:var(--pinterest)">${s.pinterest}</span>
+      ${sigBar(s.pinterest,'var(--pinterest)')}
+    </td>
+    <td class="final-cell">
+      <span class="final-score">${s.final}</span>
+      <span class="final-mom" style="color:${mom===null?'var(--gold)':mom>=0?'#27500a':'#7a1f1f'}">${mom===null?'NEW':mom>=0?'+'+mom+'%':mom+'%'}</span>
+    </td>
+    <td class="photo-cell">${s.photo?'<span class="photo-yes">✓ Auto</span>':'<span class="photo-no">—</span>'}</td>`;
+  tbody.appendChild(tr);
+});
+
+// Render breakdown cards
+const bkDiv = document.getElementById('breakdownCards');
+bkDiv.innerHTML=`<div class="bk-title">Signal source breakdown — how each platform contributed to this week's top 5</div><div class="bk-grid" id="bkGrid"></div>`;
+const bkGrid = document.getElementById('bkGrid');
+STYLES.slice(0,5).forEach(s=>{
+  const color=CAT_COLOR[s.cat];
+  bkGrid.innerHTML+=`
+  <div class="bk-card">
+    <div class="bk-card-header">
+      <div class="style-name" style="font-size:13px">${s.name}</div>
+      <div class="final-score" style="color:${color};font-family:'Playfair Display',serif;font-size:20px;font-weight:700">${s.final}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.5rem">
+      <div style="border-left:2px solid var(--google);padding-left:.5rem">
+        <div class="bk-card-source" style="color:var(--google)">Google</div>
+        <div class="bk-card-metric" style="color:var(--google);font-size:18px">${s.google}</div>
+        <div class="bk-card-sublabel">search score</div>
+      </div>
+      <div style="border-left:2px solid var(--tiktok);padding-left:.5rem">
+        <div class="bk-card-source" style="color:var(--tiktok)">TikTok</div>
+        <div class="bk-card-metric" style="color:var(--tiktok);font-size:18px">${s.tiktok}</div>
+        <div class="bk-card-sublabel">${s.tiktok_views} views</div>
+      </div>
+      <div style="border-left:2px solid var(--youtube);padding-left:.5rem">
+        <div class="bk-card-source" style="color:var(--youtube)">YouTube</div>
+        <div class="bk-card-metric" style="color:var(--youtube);font-size:18px">${s.youtube}</div>
+        <div class="bk-card-sublabel">${s.youtube_vids} videos</div>
+      </div>
+      <div style="border-left:2px solid var(--pinterest);padding-left:.5rem">
+        <div class="bk-card-source" style="color:var(--pinterest)">Pinterest</div>
+        <div class="bk-card-metric" style="color:var(--pinterest);font-size:18px">${s.pinterest}</div>
+        <div class="bk-card-sublabel">saves index</div>
+      </div>
+    </div>
+    <div class="bk-card-detail">
+      TikTok: <b>${s.tiktok_tag}</b><br>
+      Google keyword: <b>${s.google_kw}</b>
+    </div>
+  </div>`;
+});
+
+// Render JSON output
+const jsonSample = {
+  updated_at: "April 22, 2026",
+  season: "Spring", year: 2026, geo: "US",
+  styles: STYLES.slice(0,5).map((s,i)=>({
+    rank: i+1,
+    name: s.name,
+    cat: s.cat,
+    final_score: s.final,
+    signals: {
+      google: { score: s.google, keyword: s.google_kw, weight: 0.40 },
+      tiktok: { score: s.tiktok, hashtag: s.tiktok_tag, views: s.tiktok_views, weight: 0.30 },
+      youtube: { score: s.youtube, videos: s.youtube_vids, weight: 0.20 },
+      pinterest: { score: s.pinterest, weight: 0.10 }
+    },
+    photo_url: `images/${s.name.toLowerCase().replace(/ /g,'-')}.jpg`,
+    weeks: [s.final-14, s.final-8, s.final-4, s.final]
+  }))
+};
+
+document.getElementById('jsonOutput').textContent = JSON.stringify(jsonSample, null, 2);
+
+// Tab switching
+function showView(v){
+  ['table','breakdown','json'].forEach(id=>{
+    document.getElementById('view-'+id).style.display=id===v?'block':'none';
+  });
+  document.querySelectorAll('.tab').forEach((t,i)=>{
+    t.classList.toggle('active',['table','breakdown','json'][i]===v);
+  });
+}
+</script>
+</body>
+</html>
