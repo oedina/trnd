@@ -82,7 +82,7 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
 <header class="masthead">
   <div class="masthead-side">Trend Intelligence<br>United States Market</div>
   <div class="logo" onclick="location.reload()">Seasonal<span>Rank</span></div>
-  <div class="masthead-side masthead-right" id="issueDate">—</div>
+  <div class="masthead-side masthead-right"><div id="issueDate" style="margin-bottom:4px">—</div><div id="userNav"></div></div>
 </header>
 <div class="issue-line"><b id="seasonLabel">—</b> · US Market · Weekly Rankings · <b id="totalTracked">—</b> Styles</div>
 
@@ -325,6 +325,21 @@ const FALLBACK={
 };
 
 loadData();
+</script>
+
+<script>
+(function(){
+  const s = JSON.parse(localStorage.getItem('sr_session')||'null');
+  const nav = document.getElementById('userNav');
+  if(!nav) return;
+  if(s){
+    nav.innerHTML = '<span style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-right:.75rem">' + s.name.split(' ')[0] + '</span>' +
+      (s.role==='admin' ? '<a href="admin.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);text-decoration:none;margin-right:.75rem">Admin</a>' : '') +
+      '<button onclick="localStorage.removeItem('sr_session');location.reload()" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:inherit">Sign out</button>';
+  } else {
+    nav.innerHTML = '<a href="login.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--fog);padding:.3rem .85rem;transition:all .15s" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--fog)'">Sign in</a>';
+  }
+})();
 </script>
 </body>
 </html>
