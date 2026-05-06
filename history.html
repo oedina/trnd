@@ -291,17 +291,25 @@ loadIndex();
 
 
 <script>
-(function(){
-  var s = JSON.parse(localStorage.getItem('sr_session') || 'null');
+function srInitNav() {
+  var s = null;
+  try { s = JSON.parse(localStorage.getItem('sr_session') || 'null'); } catch(e){}
   var nav = document.getElementById('userNav');
   if (!nav) return;
-  if (s) {
-    var adminLink = s.role === 'admin' ? '<a href="admin.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);text-decoration:none;margin-right:.75rem">Admin</a>' : '';
-    nav.innerHTML = '<span style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:.6rem">' + (s.name||'').split(' ')[0] + '</span>' + adminLink + '<button onclick="localStorage.removeItem('sr_session');location.reload()" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);background:none;border:1px solid var(--fog);padding:.25rem .7rem;cursor:pointer;font-family:inherit">Out</button>';
+  if (s && s.name) {
+    var out = '<span style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-right:.6rem">' + s.name.split(' ')[0] + '</span>';
+    if (s.role === 'admin') {
+      out += '<a href="admin.html" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--rose);text-decoration:none;margin-right:.6rem;border:1px solid rgba(196,130,106,.3);padding:.25rem .6rem">Admin</a>';
+    }
+    out += '<button id="srSignOut" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);background:none;border:1px solid var(--fog);padding:.25rem .7rem;cursor:pointer;font-family:inherit">Out</button>';
+    nav.innerHTML = out;
+    var btn = document.getElementById('srSignOut');
+    if (btn) btn.addEventListener('click', function(){ localStorage.removeItem('sr_session'); location.reload(); });
   } else {
     nav.innerHTML = '<a href="login.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--fog);padding:.3rem .85rem;display:inline-block">Sign in</a>';
   }
-})();
+}
+document.addEventListener('DOMContentLoaded', srInitNav);
 </script>
 </body>
 </html>
