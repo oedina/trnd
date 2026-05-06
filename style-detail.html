@@ -300,7 +300,6 @@ const BRANDS = {
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 let currentStyle = null;
-let voted = null;
 let likes = 0, dislikes = 0;
 let _comments = [];
 let cVotes = {};
@@ -440,25 +439,36 @@ function renderBrands(name) {
   }
 }
 
-// ── VOTE ──────────────────────────────────────────────────────────────────────
-function vote(type) {
+// ── VOTE — one time per style, saved in localStorage ─────────────────────────
+function initVotes(s) {
+  const seed = s.name.length * (s.rank||1);
+  likes    = Math.floor(seed * 37 + 120);
+  dislikes = Math.floor(seed * 5 + 18);
+  const key   = 'sr_vote_' + s.name.replace(/\s+/g,'-').toLowerCase();
+  const prior = localStorage.getItem(key);
   const lb = document.getElementById('likeBtn');
   const db = document.getElementById('dislikeBtn');
-  const lc = document.getElementById('likeCount');
-  const dc = document.getElementById('dislikeCount');
-  if (voted===type) {
-    type==='like' ? likes-- : dislikes--;
-    (type==='like'?lb:db).classList.remove('active');
-    voted = null;
-  } else {
-    if (voted==='like')    { likes--;    lb.classList.remove('active'); }
-    if (voted==='dislike') { dislikes--; db.classList.remove('active'); }
-    type==='like' ? likes++ : dislikes++;
-    (type==='like'?lb:db).classList.add('active');
-    voted = type;
-  }
-  lc.textContent = likes >= 1000 ? (likes/1000).toFixed(1)+'k' : likes;
-  dc.textContent = dislikes;
+  lb.disabled = !!prior;
+  db.disabled = !!prior;
+  lb.classList.toggle('active', prior==='like');
+  db.classList.toggle('active', prior==='dislike');
+  document.getElementById('likeCount').textContent    = likes >= 1000 ? (likes/1000).toFixed(1)+'k' : likes;
+  document.getElementById('dislikeCount').textContent = dislikes;
+}
+
+function vote(type) {
+  if (!currentStyle) return;
+  const key   = 'sr_vote_' + currentStyle.name.replace(/\s+/g,'-').toLowerCase();
+  if (localStorage.getItem(key)) return; // already voted
+  localStorage.setItem(key, type);
+  const lb = document.getElementById('likeBtn');
+  const db = document.getElementById('dislikeBtn');
+  if (type==='like')    { likes++;    lb.classList.add('active'); }
+  else                  { dislikes++; db.classList.add('active'); }
+  lb.disabled = true;
+  db.disabled = true;
+  document.getElementById('likeCount').textContent    = likes >= 1000 ? (likes/1000).toFixed(1)+'k' : likes;
+  document.getElementById('dislikeCount').textContent = dislikes;
 }
 
 // ── COMMENTS ──────────────────────────────────────────────────────────────────
