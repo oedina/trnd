@@ -85,7 +85,7 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
     ← Back to rankings
   </button>
   <div class="topbar-logo" onclick="location.href='index.html'">Seasonal<span>Rank</span></div>
-  <div style="width:100px"></div>
+  <div id="userNav" style="width:120px;text-align:right"></div>
 </nav>
 
 <section class="hero">
@@ -287,6 +287,21 @@ const FALLBACK_WEEK = {
 };
 
 loadIndex();
+</script>
+
+<script>
+(function(){
+  const s = JSON.parse(localStorage.getItem('sr_session')||'null');
+  const nav = document.getElementById('userNav');
+  if(!nav) return;
+  if(s){
+    nav.innerHTML = '<span style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-right:.75rem">' + s.name.split(' ')[0] + '</span>' +
+      (s.role==='admin' ? '<a href="admin.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);text-decoration:none;margin-right:.75rem">Admin</a>' : '') +
+      '<button onclick="localStorage.removeItem('sr_session');location.reload()" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:inherit">Sign out</button>';
+  } else {
+    nav.innerHTML = '<a href="login.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--fog);padding:.3rem .85rem">Sign in</a>';
+  }
+})();
 </script>
 </body>
 </html>
