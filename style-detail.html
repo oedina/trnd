@@ -120,7 +120,7 @@ html,body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-se
 <nav class="topbar">
   <button class="back-btn" onclick="location.href='index.html'">← Back to rankings</button>
   <div class="topbar-logo" onclick="location.href='index.html'">Seasonal<span>Rank</span></div>
-  <button class="topbar-share" onclick="shareStyle()">Share ↗</button>
+  <div style="display:flex;align-items:center;gap:.75rem"><div id="userNav"></div><button class="topbar-share" onclick="shareStyle()">Share ↗</button></div>
 </nav>
 
 <!-- HERO IMAGE -->
@@ -204,101 +204,118 @@ const TIER_COLOR={Budget:'#888780',Accessible:'#8A9E8C','Mid-range':'#B89A6A',Pr
 const AVATARS=['#C4826A','#8A9E8C','#534AB7','#854F0B','#185FA5','#993556','#0F6E56'];
 const SIG_COLOR={google:'#4285F4',tiktok:'#ff0050',youtube:'#FF0000',pinterest:'#E60023'};
 
-// ── BRAND DATABASE ────────────────────────────────────────────────────────────
+// ── BRAND DATABASE — Google Shopping URLs (always work, show real products) ────
+// Format: search query goes to Google Shopping for that brand + style keyword
+// This avoids Access Denied issues and shows actual products with prices
+
+function makeShopUrl(brand, keyword) {
+  const q = encodeURIComponent(keyword + ' ' + brand);
+  return 'https://www.google.com/search?q=' + q + '&tbm=shop';
+}
+
+function makeShopUrlDirect(keyword) {
+  const q = encodeURIComponent(keyword);
+  return 'https://www.google.com/search?q=' + q + '&tbm=shop';
+}
+
 const BRANDS = {
   default:[
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$30–$80',   url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$40–$100',  url:'https://zara.com',                   color:'#1C1917'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$20–$60',   url:'https://hm.com',                    color:'#E50010'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$60–$200',  url:'https://nordstrom.com',              color:'#1C1917'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$100–$350', url:'https://revolve.com',                color:'#8C3A5A'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$200–$800', url:'https://net-a-porter.com',           color:'#1C1917'},
-    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$68–$168',  url:'https://freepeople.com',             color:'#6B4E3D'},
-    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$68–$198',  url:'https://anthropologie.com',          color:'#3A5A4A'},
+    {name:'Zara',         logo:'ZR',  tier:'Accessible', color:'#1C1917', searchKey:'women fashion'},
+    {name:'H&M',          logo:'HM',  tier:'Accessible', color:'#E50010', searchKey:'women fashion'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', searchKey:'women fashion'},
+    {name:'Nordstrom',    logo:'NR',  tier:'Mid-range',  color:'#1C1917', searchKey:'women fashion'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', searchKey:'women fashion'},
+    {name:'Net-a-Porter', logo:'NAP', tier:'Luxury',     color:'#1C1917', searchKey:'women fashion'},
   ],
   'Barrel leg jeans':[
-    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$148',  url:'https://madewell.com/shop/jeans',    color:'#3A5A8C'},
-    {name:'AGOLDE',      logo:'AG',  tier:'Premium',    price:'$198–$268', url:'https://agolde.com',                 color:'#5A3A2C'},
-    {name:"Levi's",      logo:"L'S", tier:'Accessible', price:'$69–$110',  url:'https://levi.com',                   color:'#B44D2C'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$49–$89',   url:'https://zara.com',                   color:'#1C1917'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$178–$248', url:'https://thereformation.com',         color:'#6B4E3D'},
-    {name:'Abercrombie', logo:'A&F', tier:'Mid-range',  price:'$78–$120',  url:'https://abercrombie.com',            color:'#4A3728'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$38–$72',   url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$158–$320', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'Madewell',     logo:'MW',  tier:'Mid-range',  color:'#3A5A8C', price:'$88–$148',  searchKey:'barrel leg jeans'},
+    {name:'AGOLDE',       logo:'AG',  tier:'Premium',    color:'#5A3A2C', price:'$198–$268', searchKey:'barrel leg jeans'},
+    {name:"Levi's",       logo:"L'S", tier:'Accessible', color:'#B44D2C', price:'$69–$110',  searchKey:'barrel leg jeans'},
+    {name:'Zara',         logo:'ZR',  tier:'Accessible', color:'#1C1917', price:'$49–$89',   searchKey:'barrel leg jeans zara'},
+    {name:'Reformation',  logo:'RF',  tier:'Premium',    color:'#6B4E3D', price:'$178–$248', searchKey:'barrel leg jeans reformation'},
+    {name:'Abercrombie',  logo:'A&F', tier:'Mid-range',  color:'#4A3728', price:'$78–$120',  searchKey:'barrel leg jeans abercrombie'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$38–$72',   searchKey:'barrel leg jeans asos'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$158–$320', searchKey:'barrel leg jeans revolve'},
   ],
   'Ballet flat':[
-    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$128',  url:'https://madewell.com/shop/shoes',    color:'#3A5A8C'},
-    {name:'Sam Edelman', logo:'SE',  tier:'Mid-range',  price:'$80–$120',  url:'https://samedelman.com',             color:'#8C6A3A'},
-    {name:'Tibi',        logo:'TB',  tier:'Premium',    price:'$295–$450', url:'https://tibi.com',                   color:'#2C3A5A'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$39–$79',   url:'https://zara.com',                   color:'#1C1917'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$60–$180',  url:'https://nordstrom.com',              color:'#1C1917'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$100–$280', url:'https://revolve.com',                color:'#8C3A5A'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$28–$65',   url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$350–$900', url:'https://net-a-porter.com',           color:'#1C1917'},
+    {name:'Madewell',     logo:'MW',  tier:'Mid-range',  color:'#3A5A8C', price:'$88–$128',  searchKey:'ballet flats madewell'},
+    {name:'Sam Edelman',  logo:'SE',  tier:'Mid-range',  color:'#8C6A3A', price:'$80–$120',  searchKey:'ballet flats sam edelman'},
+    {name:'Tibi',         logo:'TB',  tier:'Premium',    color:'#2C3A5A', price:'$295–$450', searchKey:'ballet flats tibi'},
+    {name:'Zara',         logo:'ZR',  tier:'Accessible', color:'#1C1917', price:'$39–$79',   searchKey:'ballet flats zara'},
+    {name:'Nordstrom',    logo:'NR',  tier:'Mid-range',  color:'#1C1917', price:'$60–$180',  searchKey:'ballet flats nordstrom'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$100–$280', searchKey:'ballet flats revolve'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$28–$65',   searchKey:'ballet flats asos'},
+    {name:'Steve Madden', logo:'SM',  tier:'Mid-range',  color:'#2C3A5A', price:'$70–$110',  searchKey:'ballet flats steve madden'},
   ],
   'Sheer overlay dress':[
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$49–$99',   url:'https://zara.com',                   color:'#1C1917'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$198–$298', url:'https://thereformation.com',         color:'#6B4E3D'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$35–$75',   url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$150–$350', url:'https://revolve.com',                color:'#8C3A5A'},
-    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$98–$168',  url:'https://freepeople.com',             color:'#6B4E3D'},
-    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$88–$198',  url:'https://anthropologie.com',          color:'#3A5A4A'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$29–$59',   url:'https://hm.com',                    color:'#E50010'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$300–$900', url:'https://net-a-porter.com',           color:'#1C1917'},
+    {name:'Reformation',  logo:'RF',  tier:'Premium',    color:'#6B4E3D', price:'$198–$298', searchKey:'sheer overlay dress reformation'},
+    {name:'Free People',  logo:'FP',  tier:'Mid-range',  color:'#6B4E3D', price:'$98–$168',  searchKey:'sheer overlay dress free people'},
+    {name:'Anthropologie',logo:'AN',  tier:'Mid-range',  color:'#3A5A4A', price:'$88–$198',  searchKey:'sheer overlay dress anthropologie'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$35–$75',   searchKey:'sheer overlay dress asos'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$150–$350', searchKey:'sheer overlay dress revolve'},
+    {name:'Zara',         logo:'ZR',  tier:'Accessible', color:'#1C1917', price:'$49–$99',   searchKey:'sheer overlay dress zara'},
+    {name:'Nordstrom',    logo:'NR',  tier:'Mid-range',  color:'#1C1917', price:'$80–$220',  searchKey:'sheer overlay dress nordstrom'},
+    {name:'Net-a-Porter', logo:'NAP', tier:'Luxury',     color:'#1C1917', price:'$300–$900', searchKey:'sheer overlay dress net a porter'},
   ],
   'Coquette aesthetic':[
-    {name:'Lirika Matoshi',logo:'LM',tier:'Premium',    price:'$180–$350', url:'https://lirikamatoshi.com',          color:'#993556'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$35–$85',   url:'https://zara.com',                   color:'#1C1917'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$25–$70',   url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$68–$148',  url:'https://anthropologie.com',          color:'#3A5A4A'},
-    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$78–$168',  url:'https://freepeople.com',             color:'#6B4E3D'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$120–$280', url:'https://revolve.com',                color:'#8C3A5A'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$20–$55',   url:'https://hm.com',                    color:'#E50010'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$50–$180',  url:'https://nordstrom.com',              color:'#1C1917'},
+    {name:'Lirika Matoshi',logo:'LM', tier:'Premium',    color:'#993556', price:'$180–$350', searchKey:'coquette aesthetic dress lirika matoshi'},
+    {name:'Anthropologie',logo:'AN',  tier:'Mid-range',  color:'#3A5A4A', price:'$68–$148',  searchKey:'coquette aesthetic anthropologie'},
+    {name:'Free People',  logo:'FP',  tier:'Mid-range',  color:'#6B4E3D', price:'$78–$168',  searchKey:'coquette aesthetic free people'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$120–$280', searchKey:'coquette aesthetic revolve'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$25–$70',   searchKey:'coquette aesthetic outfit asos'},
+    {name:'Nordstrom',    logo:'NR',  tier:'Mid-range',  color:'#1C1917', price:'$50–$180',  searchKey:'coquette aesthetic nordstrom'},
+    {name:'Shein',        logo:'SH',  tier:'Budget',     color:'#CC0000', price:'$8–$35',    searchKey:'coquette aesthetic shein'},
+    {name:'Urban Outfitters',logo:'UO',tier:'Mid-range', color:'#3A3A5A', price:'$45–$120',  searchKey:'coquette aesthetic urban outfitters'},
   ],
   'Trench coat':[
-    {name:'Burberry',    logo:'BB',  tier:'Luxury',     price:'$1,800+',   url:'https://us.burberry.com',            color:'#B89A6A'},
-    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$79–$150',  url:'https://mango.com',                  color:'#8C6A3A'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$69–$130',  url:'https://zara.com',                   color:'#1C1917'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$55–$110',  url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$150–$400', url:'https://nordstrom.com',              color:'#1C1917'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$248–$398', url:'https://thereformation.com',         color:'#6B4E3D'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$180–$450', url:'https://revolve.com',                color:'#8C3A5A'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$500–$2000',url:'https://net-a-porter.com',           color:'#1C1917'},
+    {name:'Burberry',     logo:'BB',  tier:'Luxury',     color:'#B89A6A', price:'$1,800+',   searchKey:'trench coat burberry'},
+    {name:'Mango',        logo:'MG',  tier:'Accessible', color:'#8C6A3A', price:'$79–$150',  searchKey:'trench coat mango'},
+    {name:'Nordstrom',    logo:'NR',  tier:'Mid-range',  color:'#1C1917', price:'$150–$400', searchKey:'trench coat nordstrom women'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$55–$110',  searchKey:'trench coat asos women'},
+    {name:'Reformation',  logo:'RF',  tier:'Premium',    color:'#6B4E3D', price:'$248–$398', searchKey:'trench coat reformation'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$180–$450', searchKey:'trench coat revolve'},
+    {name:'Banana Republic',logo:'BR',tier:'Mid-range',  color:'#4A3728', price:'$180–$280', searchKey:'trench coat banana republic'},
+    {name:'Net-a-Porter', logo:'NAP', tier:'Luxury',     color:'#1C1917', price:'$500–$2000',searchKey:'trench coat net a porter'},
   ],
   'Oversized blazer':[
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$59–$119',  url:'https://zara.com',                   color:'#1C1917'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$35–$70',   url:'https://hm.com',                    color:'#E50010'},
-    {name:'Abercrombie', logo:'A&F', tier:'Mid-range',  price:'$98–$160',  url:'https://abercrombie.com',            color:'#4A3728'},
-    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$69–$130',  url:'https://mango.com',                  color:'#8C6A3A'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$198–$298', url:'https://thereformation.com',         color:'#6B4E3D'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$80–$250',  url:'https://nordstrom.com',              color:'#1C1917'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$150–$380', url:'https://revolve.com',                color:'#8C3A5A'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$40–$90',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Mango',        logo:'MG',  tier:'Accessible', color:'#8C6A3A', price:'$69–$130',  searchKey:'oversized blazer mango women'},
+    {name:'Abercrombie',  logo:'A&F', tier:'Mid-range',  color:'#4A3728', price:'$98–$160',  searchKey:'oversized blazer abercrombie'},
+    {name:'Reformation',  logo:'RF',  tier:'Premium',    color:'#6B4E3D', price:'$198–$298', searchKey:'oversized blazer reformation'},
+    {name:'Nordstrom',    logo:'NR',  tier:'Mid-range',  color:'#1C1917', price:'$80–$250',  searchKey:'oversized blazer nordstrom women'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$40–$90',   searchKey:'oversized blazer asos women'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$150–$380', searchKey:'oversized blazer revolve'},
+    {name:'J.Crew',       logo:'JC',  tier:'Mid-range',  color:'#1C3A5A', price:'$148–$230', searchKey:'oversized blazer j crew'},
+    {name:'Banana Republic',logo:'BR',tier:'Mid-range',  color:'#4A3728', price:'$130–$250', searchKey:'oversized blazer banana republic'},
   ],
   'Linen wide trousers':[
-    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$49–$99',   url:'https://mango.com',                  color:'#8C6A3A'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$45–$89',   url:'https://zara.com',                   color:'#1C1917'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$168–$248', url:'https://thereformation.com',         color:'#6B4E3D'},
-    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$138',  url:'https://madewell.com',               color:'#3A5A8C'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$35–$70',   url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$78–$148',  url:'https://anthropologie.com',          color:'#3A5A4A'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$25–$55',   url:'https://hm.com',                    color:'#E50010'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$130–$280', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'Mango',        logo:'MG',  tier:'Accessible', color:'#8C6A3A', price:'$49–$99',   searchKey:'linen wide leg trousers mango'},
+    {name:'Reformation',  logo:'RF',  tier:'Premium',    color:'#6B4E3D', price:'$168–$248', searchKey:'linen wide leg pants reformation'},
+    {name:'Madewell',     logo:'MW',  tier:'Mid-range',  color:'#3A5A8C', price:'$88–$138',  searchKey:'linen wide trousers madewell'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$35–$70',   searchKey:'linen wide leg pants asos'},
+    {name:'Anthropologie',logo:'AN',  tier:'Mid-range',  color:'#3A5A4A', price:'$78–$148',  searchKey:'linen trousers anthropologie'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$130–$280', searchKey:'linen wide pants revolve'},
+    {name:'Everlane',     logo:'EV',  tier:'Mid-range',  color:'#2C2C2C', price:'$68–$128',  searchKey:'linen wide trousers everlane'},
+    {name:'J.Crew',       logo:'JC',  tier:'Mid-range',  color:'#1C3A5A', price:'$88–$148',  searchKey:'linen trousers j crew'},
   ],
   'Maxi slip dress':[
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$178–$278', url:'https://thereformation.com',         color:'#6B4E3D'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$140–$320', url:'https://revolve.com',                color:'#8C3A5A'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$35–$80',   url:'https://asos.com',                   color:'#2C2C2C'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$45–$89',   url:'https://zara.com',                   color:'#1C1917'},
-    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$98–$178',  url:'https://freepeople.com',             color:'#6B4E3D'},
-    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$98–$188',  url:'https://anthropologie.com',          color:'#3A5A4A'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$29–$59',   url:'https://hm.com',                    color:'#E50010'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$300–$800', url:'https://net-a-porter.com',           color:'#1C1917'},
+    {name:'Reformation',  logo:'RF',  tier:'Premium',    color:'#6B4E3D', price:'$178–$278', searchKey:'maxi slip dress reformation'},
+    {name:'Revolve',      logo:'RV',  tier:'Premium',    color:'#8C3A5A', price:'$140–$320', searchKey:'maxi slip dress revolve'},
+    {name:'Free People',  logo:'FP',  tier:'Mid-range',  color:'#6B4E3D', price:'$98–$178',  searchKey:'maxi slip dress free people'},
+    {name:'Anthropologie',logo:'AN',  tier:'Mid-range',  color:'#3A5A4A', price:'$98–$188',  searchKey:'maxi slip dress anthropologie'},
+    {name:'ASOS',         logo:'AS',  tier:'Accessible', color:'#2C2C2C', price:'$35–$80',   searchKey:'maxi slip dress asos'},
+    {name:'Net-a-Porter', logo:'NAP', tier:'Luxury',     color:'#1C1917', price:'$300–$800', searchKey:'maxi slip dress net a porter'},
+    {name:'Nordstrom',    logo:'NR',  tier:'Mid-range',  color:'#1C1917', price:'$60–$200',  searchKey:'maxi slip dress nordstrom'},
+    {name:'Urban Outfitters',logo:'UO',tier:'Mid-range', color:'#3A3A5A', price:'$59–$129',  searchKey:'maxi slip dress urban outfitters'},
   ],
 };
 
-// ── STATE ─────────────────────────────────────────────────────────────────────
+// Build URL from searchKey using Google Shopping
+function getBrandUrl(b, styleKeyword) {
+  const q = encodeURIComponent(b.searchKey || (styleKeyword + ' ' + b.name));
+  return 'https://www.google.com/search?q=' + q + '&tbm=shop';
+}
+
+// ── STATE// ── STATE ─────────────────────────────────────────────────────────────────────
 let currentStyle = null;
 let likes = 0, dislikes = 0;
 let _comments = [];
@@ -399,44 +416,28 @@ function renderBrands(name) {
   const wrap = document.getElementById('brandsWrap');
   wrap.innerHTML = '';
 
-  if (customLinks.length > 0) {
-    // Use admin-saved links with direct product URLs
-    customLinks.forEach(b => {
-      const a = document.createElement('a');
-      a.className = 'brand-card';
-      a.href      = b.url;
-      a.target    = '_blank';
-      a.rel       = 'noopener noreferrer';
-      a.innerHTML = `
-        <div class="b-logo" style="color:#C4826A;border-color:#C4826A33">${b.name.slice(0,3).toUpperCase()}</div>
-        <div class="b-info">
-          <div class="b-name">${b.name}</div>
-          <div class="b-tier"><span class="b-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>${b.tier}</div>
-          <div class="b-price">${b.price}</div>
-        </div>
-        <div class="b-arrow">→</div>`;
-      wrap.appendChild(a);
-    });
-  } else {
-    // Use default hardcoded brands
-    const list = BRANDS[name] || BRANDS['default'];
-    list.forEach(b => {
-      const a = document.createElement('a');
-      a.className = 'brand-card';
-      a.href      = b.url;
-      a.target    = '_blank';
-      a.rel       = 'noopener noreferrer';
-      a.innerHTML = `
-        <div class="b-logo" style="color:${b.color};border-color:${b.color}33">${b.logo}</div>
-        <div class="b-info">
-          <div class="b-name">${b.name}</div>
-          <div class="b-tier"><span class="b-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>${b.tier}</div>
-          <div class="b-price">${b.price}</div>
-        </div>
-        <div class="b-arrow">→</div>`;
-      wrap.appendChild(a);
-    });
-  }
+  // Use admin custom links if set, otherwise use default BRANDS database
+  const brandList = customLinks.length > 0 ? customLinks : (BRANDS[name] || BRANDS['default']);
+  brandList.forEach(b => {
+    const a = document.createElement('a');
+    a.className = 'brand-card';
+    // Use admin URL if set, otherwise build Google Shopping URL
+    a.href      = b.url || getBrandUrl(b, name);
+    a.target    = '_blank';
+    a.rel       = 'noopener noreferrer';
+    const logo  = b.logo || b.name.slice(0,3).toUpperCase();
+    const color = b.color || '#C4826A';
+    const price = b.price || '';
+    a.innerHTML = `
+      <div class="b-logo" style="color:${color};border-color:${color}33">${logo}</div>
+      <div class="b-info">
+        <div class="b-name">${b.name}</div>
+        <div class="b-tier"><span class="b-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>${b.tier}</div>
+        <div class="b-price">${price}</div>
+      </div>
+      <div class="b-arrow">→</div>`;
+    wrap.appendChild(a);
+  });
 }
 
 // ── VOTE — one time per style, saved in localStorage ─────────────────────────
@@ -542,6 +543,21 @@ function shareStyle() {
 }
 
 init();
+</script>
+
+<script>
+(function(){
+  const s = JSON.parse(localStorage.getItem('sr_session')||'null');
+  const nav = document.getElementById('userNav');
+  if(!nav) return;
+  if(s){
+    nav.innerHTML = '<span style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-right:.75rem">' + s.name.split(' ')[0] + '</span>' +
+      (s.role==='admin' ? '<a href="admin.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);text-decoration:none;margin-right:.75rem">Admin</a>' : '') +
+      '<button onclick="localStorage.removeItem('sr_session');location.reload()" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:inherit">Sign out</button>';
+  } else {
+    nav.innerHTML = '<a href="login.html" style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);text-decoration:none;border:1px solid var(--fog);padding:.3rem .85rem;transition:all .15s" onmouseover="this.style.borderColor='var(--ink)'" onmouseout="this.style.borderColor='var(--fog)'">Sign in</a>';
+  }
+})();
 </script>
 </body>
 </html>
