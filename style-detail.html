@@ -4,505 +4,463 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SeasonalRank — Style Detail</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <style>
-:root{
-  --cream:#F7F3EE;--ink:#1C1917;--blush:#E8C4B0;--rose:#C4826A;
-  --sage:#8A9E8C;--gold:#B89A6A;--fog:#E2DDD7;--warm:#FBF8F5;
-}
+:root{--cream:#F7F3EE;--ink:#1C1917;--blush:#E8C4B0;--rose:#C4826A;--sage:#8A9E8C;--gold:#B89A6A;--fog:#E2DDD7;--warm:#FBF8F5}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+html,body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300}
 
 /* TOPBAR */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;border-bottom:1px solid var(--fog);position:sticky;top:0;background:var(--cream);z-index:100}
-.back-btn{display:flex;align-items:center;gap:.4rem;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.5rem;border-bottom:1px solid var(--fog);background:var(--cream);position:sticky;top:0;z-index:100}
+.back-btn{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
 .back-btn:hover{color:var(--rose)}
-.back-btn:hover svg{transform:translateX(-3px)}
-.back-btn svg{transition:transform .2s}
-.topbar-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;letter-spacing:-.03em;cursor:pointer}
+.topbar-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;cursor:pointer}
 .topbar-logo span{font-style:italic;color:var(--rose)}
-.topbar-share{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s}
-.topbar-share:hover{color:var(--ink)}
+.topbar-share{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-/* HERO SPLIT */
-.hero-split{display:grid;grid-template-columns:1fr 1fr;min-height:65vh;border-bottom:1px solid var(--fog)}
-.hero-img-col{position:relative;overflow:hidden;background:var(--fog);border-right:1px solid var(--fog)}
-.hero-img-col img{width:100%;height:100%;object-fit:cover;animation:imgReveal .9s cubic-bezier(.25,.8,.25,1) both}
-@keyframes imgReveal{from{transform:scale(1.08);opacity:0}to{transform:scale(1);opacity:1}}
-.rank-stamp{position:absolute;top:1.2rem;left:1.2rem;background:var(--ink);color:var(--cream);font-family:'Playfair Display',serif;font-size:11px;font-weight:700;padding:.4rem .7rem;letter-spacing:.08em}
-.rank-stamp small{font-size:7px;letter-spacing:.2em;text-transform:uppercase;display:block;font-family:'DM Sans',sans-serif;font-weight:300;opacity:.7;margin-bottom:1px}
-.momentum-float{position:absolute;bottom:1.2rem;left:1.2rem;right:1.2rem;background:rgba(28,25,23,.82);backdrop-filter:blur(8px);padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between}
-.momentum-float-label{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)}
-.momentum-float-val{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#7ecf8a}
-.hero-info-col{padding:2rem 1.75rem 1.5rem;display:flex;flex-direction:column;gap:0;animation:slideUp .6s .15s cubic-bezier(.25,.8,.25,1) both;overflow-y:auto}
-@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.hero-eyebrow{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--rose);margin-bottom:.5rem}
-.hero-cat{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
-.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,38px);font-style:italic;line-height:1.05;margin-bottom:.9rem}
-.hero-insight{font-size:12px;line-height:1.8;color:#4a4540;margin-bottom:1.25rem;font-style:italic;border-left:2px solid var(--blush);padding-left:.75rem}
+/* HERO — stacked layout, no overflow issues */
+.hero-img{width:100%;height:340px;position:relative;overflow:hidden;background:var(--fog)}
+.hero-img img{width:100%;height:100%;object-fit:cover}
+.rank-stamp{position:absolute;top:1rem;left:1rem;background:var(--ink);color:var(--cream);font-family:'Playfair Display',serif;font-size:11px;font-weight:700;padding:.35rem .65rem}
+.rank-stamp small{font-size:7px;letter-spacing:.2em;text-transform:uppercase;display:block;font-family:'DM Sans',sans-serif;font-weight:300;opacity:.7}
+.momentum-bar{background:rgba(28,25,23,.85);padding:.65rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+.mom-label{font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.mom-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700}
 
-/* Score row */
-.score-row{display:flex;gap:0;border:1px solid var(--fog);margin-bottom:1.25rem}
-.score-cell{flex:1;padding:.65rem .75rem;border-right:1px solid var(--fog);text-align:center}
+/* HERO INFO */
+.hero-info{padding:1.5rem;border-bottom:1px solid var(--fog)}
+.hero-eyebrow{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose);margin-bottom:.35rem}
+.hero-cat{font-size:8px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.25rem}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(24px,5vw,40px);font-style:italic;line-height:1.05;margin-bottom:.85rem}
+.hero-insight{font-size:12px;line-height:1.8;font-style:italic;color:#4a4540;border-left:2px solid var(--blush);padding-left:.75rem;margin-bottom:1.25rem}
+
+/* SCORE ROW */
+.score-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--fog);margin-bottom:1.25rem}
+.score-cell{padding:.6rem .5rem;border-right:1px solid var(--fog);text-align:center}
 .score-cell:last-child{border-right:none}
-.score-cell-label{font-size:6px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
-.score-cell-val{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;line-height:1}
+.sc-label{font-size:6px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:3px}
+.sc-val{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;line-height:1}
 
-/* Signal bars */
-.signals-label{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
-.signal-bars{display:flex;flex-direction:column;gap:.35rem;margin-bottom:1.25rem}
-.signal-row{display:flex;align-items:center;gap:.5rem}
-.signal-name{font-size:8px;letter-spacing:.1em;text-transform:uppercase;width:58px;flex-shrink:0;color:var(--ink)}
-.signal-track{flex:1;height:4px;background:var(--fog);border-radius:2px}
-.signal-fill{height:4px;border-radius:2px;transition:width .6s ease}
-.signal-val{font-family:'Playfair Display',serif;font-size:10px;font-weight:700;width:24px;text-align:right;flex-shrink:0}
-.signal-weight{font-size:7px;color:var(--gold);width:28px;flex-shrink:0}
+/* SIGNAL BARS */
+.sig-label{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.sig-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.sig-name{font-size:8px;letter-spacing:.08em;text-transform:uppercase;width:60px;flex-shrink:0}
+.sig-track{flex:1;height:4px;background:var(--fog);border-radius:2px}
+.sig-fill{height:4px;border-radius:2px}
+.sig-num{font-family:'Playfair Display',serif;font-size:10px;font-weight:700;width:22px;text-align:right;flex-shrink:0}
+.sig-wt{font-size:7px;color:var(--gold);width:26px;flex-shrink:0}
 
-/* Vote row */
-.agree-row{display:flex;gap:.5rem;margin-bottom:0}
-.agree-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.55rem;border:1px solid var(--fog);background:transparent;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--ink)}
-.agree-btn.like:hover,.agree-btn.like.active{background:#eaf3de;border-color:#b6d9a0;color:#27500a}
-.agree-btn.dislike:hover,.agree-btn.dislike.active{background:#fde8e8;border-color:#f0b0b0;color:#7a1f1f}
-.agree-count{font-family:'Playfair Display',serif;font-size:13px;font-weight:700}
+/* VOTE */
+.vote-row{display:flex;gap:.5rem;margin-top:1.25rem}
+.vote-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.5rem;border:1px solid var(--fog);background:transparent;font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;color:var(--ink);transition:all .2s}
+.vote-btn.like:hover,.vote-btn.like.active{background:#eaf3de;border-color:#b6d9a0;color:#27500a}
+.vote-btn.dislike:hover,.vote-btn.dislike.active{background:#fde8e8;border-color:#f0b0b0;color:#7a1f1f}
+.vote-count{font-family:'Playfair Display',serif;font-size:13px;font-weight:700}
 
 /* SECTION RULE */
 .sec-rule{display:flex;align-items:center;gap:.75rem;padding:1.25rem 1.5rem .75rem}
 .sec-rule::before,.sec-rule::after{content:'';flex:1;height:1px;background:var(--fog)}
-.sec-rule-text{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.sec-rule span{font-size:8px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
 
-/* WHERE TO BUY */
-.brands-section{padding:0 1.5rem 0}
-.brands-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1px;background:var(--fog);border:1px solid var(--fog)}
-.brand-card{background:var(--warm);padding:.9rem 1rem;display:flex;align-items:center;gap:.8rem;transition:background .18s;cursor:pointer;text-decoration:none;color:inherit}
+/* BRANDS */
+.brands-wrap{padding:0 1.5rem}
+.brand-card{display:flex;align-items:center;gap:.8rem;padding:.9rem 1rem;background:var(--warm);border:1px solid var(--fog);border-bottom:none;text-decoration:none;color:inherit;transition:background .15s;cursor:pointer}
+.brand-card:last-child{border-bottom:1px solid var(--fog)}
 .brand-card:hover{background:var(--cream)}
-.brand-card:hover .brand-arrow{transform:translateX(3px)}
-.brand-logo{width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--fog);font-family:'Playfair Display',serif;font-size:10px;font-weight:700;letter-spacing:-.02em;background:var(--cream)}
-.brand-info{flex:1;min-width:0}
-.brand-name{font-size:12px;font-weight:500;margin-bottom:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.brand-tier{font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:3px}
-.tier-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
-.brand-price{font-size:10px;color:var(--rose);margin-top:2px}
-.brand-arrow{font-size:11px;color:var(--fog);transition:transform .2s;flex-shrink:0}
+.brand-card:hover .b-arrow{transform:translateX(3px)}
+.b-logo{width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--fog);font-family:'Playfair Display',serif;font-size:10px;font-weight:700;background:var(--cream)}
+.b-info{flex:1;min-width:0}
+.b-name{font-size:12px;font-weight:500;margin-bottom:2px}
+.b-tier{font-size:7px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:3px}
+.b-dot{width:5px;height:5px;border-radius:50%}
+.b-price{font-size:10px;color:var(--rose);margin-top:1px}
+.b-arrow{font-size:11px;color:var(--fog);transition:transform .2s;flex-shrink:0}
 
 /* COMMENTS */
-.comments-section{padding:0 1.5rem 3rem}
+.comments-wrap{padding:0 1.5rem 3rem}
 .comment-form{border:1px solid var(--fog);background:var(--warm);margin-bottom:1px}
-.comment-form textarea{width:100%;padding:.85rem 1rem;background:transparent;border:none;resize:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;color:var(--ink);outline:none;min-height:68px;line-height:1.6}
+.comment-form textarea{width:100%;padding:.85rem 1rem;background:transparent;border:none;resize:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:300;color:var(--ink);outline:none;min-height:72px;line-height:1.6}
 .comment-form textarea::placeholder{color:var(--gold);font-style:italic}
 .comment-form-foot{display:flex;align-items:center;justify-content:space-between;padding:.4rem 1rem .6rem;border-top:1px solid var(--fog)}
-.comment-hint{font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
-.comment-submit{font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:.4rem 1rem;background:var(--ink);color:var(--cream);border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
-.comment-submit:hover{background:var(--rose)}
-.comments-list{display:flex;flex-direction:column;gap:1px}
-.comment-item{background:var(--warm);padding:.85rem 1rem;display:flex;gap:.7rem;animation:fadeIn .3s ease both}
-@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.comment-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:var(--cream)}
-.comment-body{flex:1;min-width:0}
-.comment-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem}
-.comment-name{font-size:11px;font-weight:500}
-.comment-time{font-size:7px;letter-spacing:.1em;color:var(--gold)}
-.comment-text{font-size:12px;line-height:1.65;color:#3a3530}
-.comment-actions{display:flex;align-items:center;gap:.75rem;margin-top:.4rem}
-.c-action{display:flex;align-items:center;gap:.25rem;font-size:8px;letter-spacing:.1em;background:none;border:none;cursor:pointer;color:var(--gold);font-family:'DM Sans',sans-serif;transition:color .15s;padding:0}
-.c-action:hover{color:var(--rose)}
-.c-action.voted-up{color:#27500a}
-.c-action.voted-down{color:#7a1f1f}
-.c-action-count{font-family:'Playfair Display',serif;font-size:10px;font-weight:700}
+.c-hint{font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+.c-submit{font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:.4rem 1rem;background:var(--ink);color:var(--cream);border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.c-submit:hover{background:var(--rose)}
+.comment-item{display:flex;gap:.7rem;padding:.85rem 1rem;background:var(--warm);border:1px solid var(--fog);border-bottom:none}
+.comment-item:last-child{border-bottom:1px solid var(--fog)}
+.c-avatar{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:var(--cream)}
+.c-body{flex:1;min-width:0}
+.c-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem}
+.c-name{font-size:11px;font-weight:500}
+.c-time{font-size:7px;letter-spacing:.1em;color:var(--gold)}
+.c-text{font-size:12px;line-height:1.65;color:#3a3530}
+.c-actions{display:flex;align-items:center;gap:.75rem;margin-top:.4rem}
+.c-btn{display:flex;align-items:center;gap:.25rem;font-size:8px;background:none;border:none;cursor:pointer;color:var(--gold);font-family:'DM Sans',sans-serif;padding:0}
+.c-btn:hover{color:var(--rose)}
+.c-btn.up{color:#27500a}
+.c-btn.dn{color:#7a1f1f}
+.c-num{font-family:'Playfair Display',serif;font-size:10px;font-weight:700}
 
-/* SVG illustration fallback */
-.hero-illo{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--fog)}
-
-/* Footer */
+/* FOOTER */
 .page-footer{border-top:1px solid var(--fog);padding:.8rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
-.footer-note{font-size:7px;letter-spacing:.1em;color:var(--gold)}
-.footer-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;font-style:italic;color:var(--rose);opacity:.4}
+.f-note{font-size:7px;letter-spacing:.1em;color:var(--gold)}
+.f-logo{font-family:'Playfair Display',serif;font-size:16px;font-weight:900;font-style:italic;color:var(--rose);opacity:.4}
 
-@media(max-width:640px){
-  .hero-split{grid-template-columns:1fr;min-height:auto}
-  .hero-img-col{height:60vw;border-right:none;border-bottom:1px solid var(--fog)}
-  .hero-info-col{padding:1.25rem 1rem 1rem}
-  .brands-grid{grid-template-columns:1fr}
-  .score-row{flex-wrap:wrap}
-  .score-cell{min-width:50%}
+@media(min-width:768px){
+  .hero-img{height:480px}
+  .hero-info{padding:2rem}
+  .brands-wrap,.comments-wrap{padding:0 2rem}
+  .brands-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--fog);border:1px solid var(--fog);margin:0 2rem}
+  .brand-card{border:none !important}
 }
 </style>
 </head>
 <body>
 
+<!-- TOPBAR -->
 <nav class="topbar">
-  <button class="back-btn" onclick="location.href='index.html'">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    Back to rankings
-  </button>
+  <button class="back-btn" onclick="location.href='index.html'">← Back to rankings</button>
   <div class="topbar-logo" onclick="location.href='index.html'">Seasonal<span>Rank</span></div>
   <button class="topbar-share" onclick="shareStyle()">Share ↗</button>
 </nav>
 
-<!-- HERO -->
-<section class="hero-split">
-  <div class="hero-img-col" id="heroImgCol">
-    <div class="hero-illo">Loading...</div>
+<!-- HERO IMAGE -->
+<div class="hero-img" id="heroImg">
+  <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:11px;letter-spacing:.2em;text-transform:uppercase">Loading...</div>
+</div>
+
+<!-- MOMENTUM BAR -->
+<div class="momentum-bar">
+  <div>
+    <div class="mom-label">4-week momentum</div>
+    <div class="mom-val" id="momVal" style="color:#7ecf8a">—</div>
   </div>
-  <div class="hero-info-col">
-    <div class="hero-eyebrow" id="heroEyebrow">Spring 2026 · United States</div>
-    <div class="hero-cat" id="heroCat">—</div>
-    <h1 class="hero-title" id="heroTitle">Loading...</h1>
-    <p class="hero-insight" id="heroInsight"></p>
-    <div class="score-row" id="scoreRow">
-      <div class="score-cell"><div class="score-cell-label">Trend score</div><div class="score-cell-val" id="scoreVal">—</div></div>
-      <div class="score-cell"><div class="score-cell-label">Rank</div><div class="score-cell-val" id="rankVal">—</div></div>
-      <div class="score-cell"><div class="score-cell-label">Momentum</div><div class="score-cell-val" id="momVal" style="font-size:13px">—</div></div>
-      <div class="score-cell"><div class="score-cell-label">Trend</div><div class="score-cell-val" id="trendVal" style="font-size:12px">—</div></div>
-    </div>
-    <div class="signals-label">Signal sources this week</div>
-    <div class="signal-bars" id="signalBars"></div>
-    <div class="agree-row">
-      <button class="agree-btn like" id="likeBtn" onclick="vote('like')">
-        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 6.5h2.5V12H2V6.5zM4.5 6.5l2-4.5a1.5 1.5 0 013 0V5H12l-1.2 6H4.5V6.5z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
-        <span class="agree-count" id="likeCount">0</span>
-        <span>Love it</span>
-      </button>
-      <button class="agree-btn dislike" id="dislikeBtn" onclick="vote('dislike')">
-        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M12 7.5H9.5V2H12V7.5zM9.5 7.5l-2 4.5a1.5 1.5 0 01-3 0V9H2l1.2-6H9.5V7.5z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
-        <span class="agree-count" id="dislikeCount">0</span>
-        <span>Not for me</span>
-      </button>
-    </div>
+  <div>
+    <div class="mom-label">Trend signal</div>
+    <div class="mom-val" id="trendVal" style="font-size:14px;color:var(--sage)">—</div>
   </div>
-</section>
+  <div>
+    <div class="mom-label">This week rank</div>
+    <div class="mom-val" id="rankVal" style="color:var(--cream)">—</div>
+  </div>
+</div>
+
+<!-- HERO INFO -->
+<div class="hero-info">
+  <div class="hero-eyebrow">Spring 2026 · United States</div>
+  <div class="hero-cat" id="heroCat">—</div>
+  <h1 class="hero-title" id="heroTitle">Loading...</h1>
+  <p class="hero-insight" id="heroInsight"></p>
+
+  <!-- SCORE ROW -->
+  <div class="score-row">
+    <div class="score-cell"><div class="sc-label">Trend score</div><div class="sc-val" id="scoreVal">—</div></div>
+    <div class="score-cell"><div class="sc-label">Rank</div><div class="sc-val" id="rankVal2">—</div></div>
+    <div class="score-cell"><div class="sc-label">Category</div><div class="sc-val" id="catVal" style="font-size:11px">—</div></div>
+    <div class="score-cell"><div class="sc-label">Status</div><div class="sc-val" id="statusVal" style="font-size:11px">—</div></div>
+  </div>
+
+  <!-- SIGNAL BARS -->
+  <div class="sig-label">Signal sources this week</div>
+  <div id="sigBars"></div>
+
+  <!-- VOTE -->
+  <div class="vote-row">
+    <button class="vote-btn like" id="likeBtn" onclick="vote('like')">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 6.5h2.5V12H2V6.5zM4.5 6.5l2-4.5a1.5 1.5 0 013 0V5H12l-1.2 6H4.5V6.5z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+      <span class="vote-count" id="likeCount">0</span> Love it
+    </button>
+    <button class="vote-btn dislike" id="dislikeBtn" onclick="vote('dislike')">
+      <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M12 7.5H9.5V2H12V7.5zM9.5 7.5l-2 4.5a1.5 1.5 0 01-3 0V9H2l1.2-6H9.5V7.5z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+      <span class="vote-count" id="dislikeCount">0</span> Not for me
+    </button>
+  </div>
+</div>
 
 <!-- WHERE TO BUY -->
-<div class="sec-rule"><div class="sec-rule-text">Where to buy</div></div>
-<section class="brands-section">
-  <div class="brands-grid" id="brandsGrid"></div>
-</section>
+<div class="sec-rule"><span>Where to buy</span></div>
+<div class="brands-wrap" id="brandsWrap"></div>
 
 <!-- COMMENTS -->
-<div class="sec-rule"><div class="sec-rule-text">Community · <span id="commentCount">0</span> comments</div></div>
-<section class="comments-section">
+<div class="sec-rule"><span>Community · <span id="commentCount">0</span> comments</span></div>
+<div class="comments-wrap">
   <div class="comment-form">
     <textarea id="commentInput" placeholder="Share your thoughts on this trend…" maxlength="280"></textarea>
     <div class="comment-form-foot">
-      <div class="comment-hint">posting as guest · be kind</div>
-      <button class="comment-submit" onclick="postComment()">Post comment</button>
+      <div class="c-hint">posting as guest · be kind</div>
+      <button class="c-submit" onclick="postComment()">Post comment</button>
     </div>
   </div>
-  <div class="comments-list" id="commentsList"></div>
-</section>
+  <div id="commentsList"></div>
+</div>
 
 <footer class="page-footer">
-  <div class="footer-note">Trend data: Google Trends + TikTok + YouTube + Pinterest (geo: US) · Updated weekly</div>
-  <div class="footer-logo">SR</div>
+  <div class="f-note">Data: Google Trends + TikTok + YouTube + Pinterest · geo: US · Updated weekly</div>
+  <div class="f-logo">SR</div>
 </footer>
 
 <script>
-// ── BRAND DATABASE ──────────────────────────────────────────────────────────
-// Each style maps to curated brand links with real URLs
-const BRAND_DB = {
-  default: [
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$30–$80',   url:'https://asos.com',              color:'#2C2C2C'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$40–$100',  url:'https://zara.com',              color:'#1C1917'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$20–$60',   url:'https://hm.com',               color:'#E50010'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$60–$200',  url:'https://nordstrom.com',         color:'#1C1917'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$100–$350', url:'https://revolve.com',           color:'#8C3A5A'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$200–$800', url:'https://net-a-porter.com',      color:'#1C1917'},
+const CAT_COLOR={Bottoms:'#185FA5',Tops:'#0F6E56',Dresses:'#993556',Footwear:'#854F0B',Outerwear:'#534AB7',Aesthetic:'#C4826A'};
+const TIER_COLOR={Budget:'#888780',Accessible:'#8A9E8C','Mid-range':'#B89A6A',Premium:'#C4826A',Luxury:'#534AB7'};
+const AVATARS=['#C4826A','#8A9E8C','#534AB7','#854F0B','#185FA5','#993556','#0F6E56'];
+const SIG_COLOR={google:'#4285F4',tiktok:'#ff0050',youtube:'#FF0000',pinterest:'#E60023'};
+
+// ── BRAND DATABASE ────────────────────────────────────────────────────────────
+const BRANDS = {
+  default:[
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$30–$80',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$40–$100',  url:'https://zara.com',                   color:'#1C1917'},
+    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$20–$60',   url:'https://hm.com',                    color:'#E50010'},
+    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$60–$200',  url:'https://nordstrom.com',              color:'#1C1917'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$100–$350', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$200–$800', url:'https://net-a-porter.com',           color:'#1C1917'},
+    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$68–$168',  url:'https://freepeople.com',             color:'#6B4E3D'},
+    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$68–$198',  url:'https://anthropologie.com',          color:'#3A5A4A'},
   ],
-  "Barrel leg jeans": [
-    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$148',  url:'https://madewell.com/shop/jeans/barrel-jeans', color:'#3A5A8C'},
-    {name:'AGOLDE',      logo:'AG',  tier:'Premium',    price:'$198–$268', url:'https://agolde.com',            color:'#5A3A2C'},
-    {name:"Levi's",      logo:"L'S", tier:'Accessible', price:'$69–$110',  url:'https://levi.com',              color:'#B44D2C'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$49–$89',   url:'https://zara.com/us/en/search?searchTerm=barrel+jeans', color:'#1C1917'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$178–$248', url:'https://thereformation.com',    color:'#6B4E3D'},
-    {name:'Abercrombie', logo:'A&F', tier:'Mid-range',  price:'$78–$120',  url:'https://abercrombie.com',       color:'#4A3728'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$38–$72',   url:'https://asos.com/us/women/ctas/denim/cat/?cid=4169', color:'#2C2C2C'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$158–$320', url:'https://revolve.com',           color:'#8C3A5A'},
+  'Barrel leg jeans':[
+    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$148',  url:'https://madewell.com/shop/jeans',    color:'#3A5A8C'},
+    {name:'AGOLDE',      logo:'AG',  tier:'Premium',    price:'$198–$268', url:'https://agolde.com',                 color:'#5A3A2C'},
+    {name:"Levi's",      logo:"L'S", tier:'Accessible', price:'$69–$110',  url:'https://levi.com',                   color:'#B44D2C'},
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$49–$89',   url:'https://zara.com',                   color:'#1C1917'},
+    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$178–$248', url:'https://thereformation.com',         color:'#6B4E3D'},
+    {name:'Abercrombie', logo:'A&F', tier:'Mid-range',  price:'$78–$120',  url:'https://abercrombie.com',            color:'#4A3728'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$38–$72',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$158–$320', url:'https://revolve.com',                color:'#8C3A5A'},
   ],
-  "Ballet flat": [
-    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$128',  url:'https://madewell.com/shop/shoes/flats', color:'#3A5A8C'},
-    {name:'Sam Edelman', logo:'SE',  tier:'Mid-range',  price:'$80–$120',  url:'https://samedelman.com',        color:'#8C6A3A'},
-    {name:'Tibi',        logo:'TB',  tier:'Premium',    price:'$295–$450', url:'https://tibi.com',              color:'#2C3A5A'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$39–$79',   url:'https://zara.com/us/en/search?searchTerm=ballet+flat', color:'#1C1917'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$60–$180',  url:'https://nordstrom.com/sr?origin=keywordsearch&keyword=ballet+flats', color:'#1C1917'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$100–$280', url:'https://revolve.com/shoes/br/2e5632/?navsrc=subshoes', color:'#8C3A5A'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$28–$65',   url:'https://asos.com',              color:'#2C2C2C'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$350–$900', url:'https://net-a-porter.com',      color:'#1C1917'},
+  'Ballet flat':[
+    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$128',  url:'https://madewell.com/shop/shoes',    color:'#3A5A8C'},
+    {name:'Sam Edelman', logo:'SE',  tier:'Mid-range',  price:'$80–$120',  url:'https://samedelman.com',             color:'#8C6A3A'},
+    {name:'Tibi',        logo:'TB',  tier:'Premium',    price:'$295–$450', url:'https://tibi.com',                   color:'#2C3A5A'},
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$39–$79',   url:'https://zara.com',                   color:'#1C1917'},
+    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$60–$180',  url:'https://nordstrom.com',              color:'#1C1917'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$100–$280', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$28–$65',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$350–$900', url:'https://net-a-porter.com',           color:'#1C1917'},
   ],
-  "Sheer overlay dress": [
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$49–$99',   url:'https://zara.com/us/en/search?searchTerm=sheer+dress', color:'#1C1917'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$198–$298', url:'https://thereformation.com',    color:'#6B4E3D'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$35–$75',   url:'https://asos.com',              color:'#2C2C2C'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$150–$350', url:'https://revolve.com',           color:'#8C3A5A'},
-    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$98–$168',  url:'https://freepeople.com',        color:'#6B4E3D'},
-    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$88–$198',  url:'https://anthropologie.com',     color:'#3A5A4A'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$300–$900', url:'https://net-a-porter.com',      color:'#1C1917'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$29–$59',   url:'https://hm.com',               color:'#E50010'},
+  'Sheer overlay dress':[
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$49–$99',   url:'https://zara.com',                   color:'#1C1917'},
+    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$198–$298', url:'https://thereformation.com',         color:'#6B4E3D'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$35–$75',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$150–$350', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$98–$168',  url:'https://freepeople.com',             color:'#6B4E3D'},
+    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$88–$198',  url:'https://anthropologie.com',          color:'#3A5A4A'},
+    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$29–$59',   url:'https://hm.com',                    color:'#E50010'},
+    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$300–$900', url:'https://net-a-porter.com',           color:'#1C1917'},
   ],
-  "Coquette aesthetic": [
-    {name:'Lirika Matoshi',logo:'LM',tier:'Premium',   price:'$180–$350', url:'https://lirikamatoshi.com',     color:'#993556'},
-    {name:'Shein',       logo:'SH',  tier:'Budget',     price:'$8–$35',    url:'https://shein.com',            color:'#CC0000'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$35–$85',   url:'https://zara.com',             color:'#1C1917'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$25–$70',   url:'https://asos.com',             color:'#2C2C2C'},
-    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$68–$148',  url:'https://anthropologie.com',    color:'#3A5A4A'},
-    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$78–$168',  url:'https://freepeople.com',       color:'#6B4E3D'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$120–$280', url:'https://revolve.com',          color:'#8C3A5A'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$50–$180',  url:'https://nordstrom.com',        color:'#1C1917'},
+  'Coquette aesthetic':[
+    {name:'Lirika Matoshi',logo:'LM',tier:'Premium',    price:'$180–$350', url:'https://lirikamatoshi.com',          color:'#993556'},
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$35–$85',   url:'https://zara.com',                   color:'#1C1917'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$25–$70',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$68–$148',  url:'https://anthropologie.com',          color:'#3A5A4A'},
+    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$78–$168',  url:'https://freepeople.com',             color:'#6B4E3D'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$120–$280', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$20–$55',   url:'https://hm.com',                    color:'#E50010'},
+    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$50–$180',  url:'https://nordstrom.com',              color:'#1C1917'},
   ],
-  "Trench coat": [
-    {name:'Burberry',    logo:'BB',  tier:'Luxury',     price:'$1,800+',   url:'https://us.burberry.com',       color:'#B89A6A'},
-    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$79–$150',  url:'https://mango.com',             color:'#8C6A3A'},
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$69–$130',  url:'https://zara.com/us/en/search?searchTerm=trench+coat', color:'#1C1917'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$55–$110',  url:'https://asos.com',              color:'#2C2C2C'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$150–$400', url:'https://nordstrom.com',         color:'#1C1917'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$248–$398', url:'https://thereformation.com',    color:'#6B4E3D'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$180–$450', url:'https://revolve.com',           color:'#8C3A5A'},
-    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$500–$2000',url:'https://net-a-porter.com',      color:'#1C1917'},
+  'Trench coat':[
+    {name:'Burberry',    logo:'BB',  tier:'Luxury',     price:'$1,800+',   url:'https://us.burberry.com',            color:'#B89A6A'},
+    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$79–$150',  url:'https://mango.com',                  color:'#8C6A3A'},
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$69–$130',  url:'https://zara.com',                   color:'#1C1917'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$55–$110',  url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$150–$400', url:'https://nordstrom.com',              color:'#1C1917'},
+    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$248–$398', url:'https://thereformation.com',         color:'#6B4E3D'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$180–$450', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$500–$2000',url:'https://net-a-porter.com',           color:'#1C1917'},
   ],
-  "Oversized blazer": [
-    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$59–$119',  url:'https://zara.com/us/en/search?searchTerm=oversized+blazer', color:'#1C1917'},
-    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$35–$70',   url:'https://hm.com',               color:'#E50010'},
-    {name:'Abercrombie', logo:'A&F', tier:'Mid-range',  price:'$98–$160',  url:'https://abercrombie.com',       color:'#4A3728'},
-    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$69–$130',  url:'https://mango.com',             color:'#8C6A3A'},
-    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$198–$298', url:'https://thereformation.com',    color:'#6B4E3D'},
-    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$80–$250',  url:'https://nordstrom.com',         color:'#1C1917'},
-    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$150–$380', url:'https://revolve.com',           color:'#8C3A5A'},
-    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$40–$90',   url:'https://asos.com',              color:'#2C2C2C'},
+  'Oversized blazer':[
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$59–$119',  url:'https://zara.com',                   color:'#1C1917'},
+    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$35–$70',   url:'https://hm.com',                    color:'#E50010'},
+    {name:'Abercrombie', logo:'A&F', tier:'Mid-range',  price:'$98–$160',  url:'https://abercrombie.com',            color:'#4A3728'},
+    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$69–$130',  url:'https://mango.com',                  color:'#8C6A3A'},
+    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$198–$298', url:'https://thereformation.com',         color:'#6B4E3D'},
+    {name:'Nordstrom',   logo:'NR',  tier:'Mid-range',  price:'$80–$250',  url:'https://nordstrom.com',              color:'#1C1917'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$150–$380', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$40–$90',   url:'https://asos.com',                   color:'#2C2C2C'},
+  ],
+  'Linen wide trousers':[
+    {name:'Mango',       logo:'MG',  tier:'Accessible', price:'$49–$99',   url:'https://mango.com',                  color:'#8C6A3A'},
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$45–$89',   url:'https://zara.com',                   color:'#1C1917'},
+    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$168–$248', url:'https://thereformation.com',         color:'#6B4E3D'},
+    {name:'Madewell',    logo:'MW',  tier:'Mid-range',  price:'$88–$138',  url:'https://madewell.com',               color:'#3A5A8C'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$35–$70',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$78–$148',  url:'https://anthropologie.com',          color:'#3A5A4A'},
+    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$25–$55',   url:'https://hm.com',                    color:'#E50010'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$130–$280', url:'https://revolve.com',                color:'#8C3A5A'},
+  ],
+  'Maxi slip dress':[
+    {name:'Reformation', logo:'RF',  tier:'Premium',    price:'$178–$278', url:'https://thereformation.com',         color:'#6B4E3D'},
+    {name:'Revolve',     logo:'RV',  tier:'Premium',    price:'$140–$320', url:'https://revolve.com',                color:'#8C3A5A'},
+    {name:'ASOS',        logo:'AS',  tier:'Accessible', price:'$35–$80',   url:'https://asos.com',                   color:'#2C2C2C'},
+    {name:'Zara',        logo:'ZR',  tier:'Accessible', price:'$45–$89',   url:'https://zara.com',                   color:'#1C1917'},
+    {name:'Free People', logo:'FP',  tier:'Mid-range',  price:'$98–$178',  url:'https://freepeople.com',             color:'#6B4E3D'},
+    {name:'Anthropologie',logo:'AN', tier:'Mid-range',  price:'$98–$188',  url:'https://anthropologie.com',          color:'#3A5A4A'},
+    {name:'H&M',         logo:'HM',  tier:'Accessible', price:'$29–$59',   url:'https://hm.com',                    color:'#E50010'},
+    {name:'Net-a-Porter',logo:'NAP', tier:'Luxury',     price:'$300–$800', url:'https://net-a-porter.com',           color:'#1C1917'},
   ],
 };
 
-// Tier colors
-const TIER_COLOR = {
-  Budget:'#888780', Accessible:'#8A9E8C', 'Mid-range':'#B89A6A',
-  Premium:'#C4826A', Luxury:'#534AB7'
-};
-const CAT_COLOR = {
-  Bottoms:'#185FA5',Tops:'#0F6E56',Dresses:'#993556',
-  Footwear:'#854F0B',Outerwear:'#534AB7',Aesthetic:'#C4826A'
-};
-const AVATAR_COLORS = ['#C4826A','#8A9E8C','#534AB7','#854F0B','#185FA5','#993556','#0F6E56'];
-
-// ── LOAD STYLE DATA ──────────────────────────────────────────────────────────
+// ── STATE ─────────────────────────────────────────────────────────────────────
 let currentStyle = null;
+let voted = null;
+let likes = 0, dislikes = 0;
+let _comments = [];
+let cVotes = {};
 
-function loadStyle() {
-  // Try sessionStorage first (clicked from homepage)
+// ── INIT ──────────────────────────────────────────────────────────────────────
+function init() {
   const raw = sessionStorage.getItem('selectedStyle');
   if (raw) {
-    try {
-      currentStyle = JSON.parse(raw);
-      renderPage(currentStyle);
-      return;
-    } catch(e) {}
+    try { currentStyle = JSON.parse(raw); renderAll(currentStyle); return; } catch(e){}
   }
-  // Fallback — load first style from data.json
   fetch('data.json?v=' + Date.now())
     .then(r => r.json())
-    .then(data => {
-      currentStyle = data.styles[0];
-      renderPage(currentStyle);
-    })
-    .catch(() => {
-      document.getElementById('heroTitle').textContent = 'Style not found';
-    });
+    .then(d => { currentStyle = d.styles[0]; renderAll(currentStyle); })
+    .catch(() => { document.getElementById('heroTitle').textContent = 'Style not found'; });
 }
 
-function renderPage(s) {
+// ── RENDER ALL ────────────────────────────────────────────────────────────────
+function renderAll(s) {
   const color = CAT_COLOR[s.cat] || '#888';
   const score = s.final_score || s.score || 0;
   const mom   = s.momentum_pct || 0;
   const rank  = s.rank || 1;
 
-  // Page title
-  document.title = `SeasonalRank — ${s.name}`;
+  document.title = 'SeasonalRank — ' + s.name;
 
-  // Hero image or illustration
-  const imgCol = document.getElementById('heroImgCol');
+  // Hero image
+  const heroImg = document.getElementById('heroImg');
   if (s.photo && s.photo.trim()) {
-    imgCol.innerHTML = `
-      <img src="${s.photo}" alt="${s.name}" onerror="this.style.display='none'">
-      <div class="rank-stamp"><small>This week's rank</small>#${rank}</div>
-      <div class="momentum-float">
-        <div>
-          <div class="momentum-float-label">4-week momentum</div>
-          <div class="momentum-float-val" style="color:${mom>=0?'#7ecf8a':'#f08080'}">${mom>=0?'+':''}${mom}%</div>
-        </div>
-        <svg width="90" height="32" viewBox="0 0 90 32">
-          ${sparklinePath(s.weeks||[score,score,score,score])}
-        </svg>
-      </div>`;
+    heroImg.innerHTML = `<img src="${s.photo}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover">`;
   } else {
-    imgCol.innerHTML = `
-      <div class="hero-illo" style="background:${color}12;flex-direction:column;gap:8px">
-        <div style="font-family:'DM Serif Display',serif;font-size:32px;font-style:italic;color:${color};opacity:.3">${s.name}</div>
-      </div>
-      <div class="rank-stamp"><small>This week's rank</small>#${rank}</div>
-      <div class="momentum-float">
-        <div>
-          <div class="momentum-float-label">4-week momentum</div>
-          <div class="momentum-float-val" style="color:${mom>=0?'#7ecf8a':'#f08080'}">${mom>=0?'+':''}${mom}%</div>
-        </div>
-      </div>`;
+    heroImg.style.background = color + '22';
+    heroImg.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;font-style:italic;color:${color};opacity:.4">${s.name}</div>`;
   }
+  heroImg.innerHTML += `<div class="rank-stamp"><small>This week's rank</small>#${rank}</div>`;
 
-  // Info column
-  document.getElementById('heroCat').textContent      = s.cat;
-  document.getElementById('heroTitle').textContent    = s.name;
-  document.getElementById('heroCat').style.color      = color;
+  // Momentum bar
+  document.getElementById('momVal').textContent  = (mom>=0?'+':'') + mom + '%';
+  document.getElementById('momVal').style.color  = mom>=0?'#7ecf8a':'#f08080';
+  document.getElementById('trendVal').textContent = mom>10?'↑ Rising':mom<-10?'↓ Falling':'→ Stable';
+  document.getElementById('rankVal').textContent  = '#' + rank;
 
-  const insight = s.insight || `One of the top trending ${s.cat.toLowerCase()} styles in the US this week.`;
-  document.getElementById('heroInsight').textContent  = `"${insight}"`;
+  // Info
+  document.getElementById('heroCat').textContent   = s.cat;
+  document.getElementById('heroCat').style.color   = color;
+  document.getElementById('heroTitle').textContent = s.name;
+  const insight = s.insight || 'One of the top trending styles in the US this week based on combined search and social signals.';
+  document.getElementById('heroInsight').textContent = '"' + insight + '"';
 
-  document.getElementById('scoreVal').textContent     = score;
-  document.getElementById('rankVal').textContent      = `#${rank}`;
-  document.getElementById('momVal').textContent       = `${mom>=0?'+':''}${mom}%`;
-  document.getElementById('momVal').style.color       = mom>=0?'#27500a':'#7a1f1f';
-  document.getElementById('trendVal').textContent     = mom>10?'↑ Rising':mom<-10?'↓ Falling':'→ Stable';
-  document.getElementById('trendVal').style.color     = mom>10?'#27500a':mom<-10?'#7a1f1f':color;
+  // Score cells
+  document.getElementById('scoreVal').textContent  = score;
+  document.getElementById('rankVal2').textContent  = '#' + rank;
+  document.getElementById('catVal').textContent    = s.cat;
+  document.getElementById('catVal').style.color    = color;
+  document.getElementById('statusVal').textContent = mom>10?'Rising':mom<-10?'Falling':'Stable';
+  document.getElementById('statusVal').style.color = mom>10?'#27500a':mom<-10?'#7a1f1f':color;
 
   // Signal bars
+  const sigBars = document.getElementById('sigBars');
+  sigBars.innerHTML = '';
   const signals = s.signals || {};
-  const sigColors = {google:'#4285F4',tiktok:'#ff0050',youtube:'#FF0000',pinterest:'#E60023'};
-  const sigBarsEl = document.getElementById('signalBars');
-  sigBarsEl.innerHTML = '';
   ['google','tiktok','youtube','pinterest'].forEach(src => {
     const sig = signals[src] || {};
     const val = sig.score || 0;
     const wt  = Math.round((sig.weight||0)*100);
-    sigBarsEl.innerHTML += `
-      <div class="signal-row">
-        <div class="signal-name">${src.charAt(0).toUpperCase()+src.slice(1)}</div>
-        <div class="signal-track"><div class="signal-fill" style="width:${val}%;background:${sigColors[src]}"></div></div>
-        <div class="signal-val" style="color:${sigColors[src]}">${val}</div>
-        <div class="signal-weight">${wt}%</div>
-      </div>`;
+    const div = document.createElement('div');
+    div.className = 'sig-row';
+    div.innerHTML = `
+      <div class="sig-name">${src[0].toUpperCase()+src.slice(1)}</div>
+      <div class="sig-track"><div class="sig-fill" style="width:${val}%;background:${SIG_COLOR[src]}"></div></div>
+      <div class="sig-num" style="color:${SIG_COLOR[src]}">${val}</div>
+      <div class="sig-wt">${wt}%</div>`;
+    sigBars.appendChild(div);
   });
 
-  // Votes — randomize realistic starting counts
+  // Vote counts
   const seed = s.name.length * rank;
-  document.getElementById('likeCount').textContent    = Math.floor(seed * 37 + 120);
-  document.getElementById('dislikeCount').textContent = Math.floor(seed * 5 + 18);
+  likes    = Math.floor(seed * 37 + 120);
+  dislikes = Math.floor(seed * 5 + 18);
+  document.getElementById('likeCount').textContent    = likes;
+  document.getElementById('dislikeCount').textContent = dislikes;
 
   // Brands
   renderBrands(s.name);
 
   // Comments
-  renderComments(s.name, rank);
+  _comments = [
+    {name:'Jess M.',   time:'2h ago',  text:`Been wearing ${s.name} since last season — goes with everything. Worth every penny.`,         up:47, down:3},
+    {name:'Ryan K.',   time:'5h ago',  text:`Not sure about this trend. Interesting to see it at #${rank}. Might give it a try.`,            up:21, down:8},
+    {name:'Laila T.',  time:'8h ago',  text:`Found a great version on sale at Madewell. Excellent quality, holds up after washing.`,          up:63, down:1},
+    {name:'Sophie R.', time:'1d ago',  text:`This ranking is accurate. Seen this everywhere in NYC this month. The momentum is real.`,        up:38, down:5},
+    {name:'Marcus P.', time:'1d ago',  text:`Love how SeasonalRank shows the signal breakdown — makes it clear why this is trending.`,        up:29, down:2},
+  ];
+  renderComments();
 }
 
-// ── SPARKLINE ────────────────────────────────────────────────────────────────
-function sparklinePath(weeks) {
-  if (!weeks || weeks.length < 2) return '';
-  const W=90, H=32, pad=4;
-  const mn=Math.min(...weeks), mx=Math.max(...weeks), rng=mx-mn||1;
-  const pts = weeks.map((v,i) => [
-    pad + i*((W-2*pad)/(weeks.length-1)),
-    H - pad - (v-mn)/rng*(H-2*pad)
-  ]);
-  const d = 'M' + pts.map(p=>p[0].toFixed(1)+','+p[1].toFixed(1)).join('L');
-  const last = pts[pts.length-1];
-  return `<path d="${d}" fill="none" stroke="#7ecf8a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="3" fill="#7ecf8a"/>`;
-}
-
-// ── BRANDS ───────────────────────────────────────────────────────────────────
-function renderBrands(styleName) {
-  const brands = BRAND_DB[styleName] || BRAND_DB['default'];
-  const grid   = document.getElementById('brandsGrid');
-  grid.innerHTML = '';
-  brands.forEach(b => {
+// ── BRANDS ────────────────────────────────────────────────────────────────────
+function renderBrands(name) {
+  const list  = BRANDS[name] || BRANDS['default'];
+  const wrap  = document.getElementById('brandsWrap');
+  wrap.innerHTML = '';
+  list.forEach(b => {
     const a = document.createElement('a');
-    a.className   = 'brand-card';
-    a.href        = b.url;
-    a.target      = '_blank';
-    a.rel         = 'noopener noreferrer';
-    a.innerHTML   = `
-      <div class="brand-logo" style="color:${b.color};border-color:${b.color}22">${b.logo}</div>
-      <div class="brand-info">
-        <div class="brand-name">${b.name}</div>
-        <div class="brand-tier">
-          <span class="tier-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>
-          ${b.tier}
-        </div>
-        <div class="brand-price">${b.price}</div>
+    a.className = 'brand-card';
+    a.href      = b.url;
+    a.target    = '_blank';
+    a.rel       = 'noopener noreferrer';
+    a.innerHTML = `
+      <div class="b-logo" style="color:${b.color};border-color:${b.color}33">${b.logo}</div>
+      <div class="b-info">
+        <div class="b-name">${b.name}</div>
+        <div class="b-tier"><span class="b-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>${b.tier}</div>
+        <div class="b-price">${b.price}</div>
       </div>
-      <div class="brand-arrow">→</div>`;
-    grid.appendChild(a);
+      <div class="b-arrow">→</div>`;
+    wrap.appendChild(a);
   });
 }
 
-// ── VOTE ─────────────────────────────────────────────────────────────────────
-let voted = null;
-let likes = 0, dislikes = 0;
-
+// ── VOTE ──────────────────────────────────────────────────────────────────────
 function vote(type) {
   const lb = document.getElementById('likeBtn');
   const db = document.getElementById('dislikeBtn');
   const lc = document.getElementById('likeCount');
   const dc = document.getElementById('dislikeCount');
-
-  if (voted === type) {
-    if (type==='like') { likes--; lb.classList.remove('active'); }
-    else { dislikes--; db.classList.remove('active'); }
+  if (voted===type) {
+    type==='like' ? likes-- : dislikes--;
+    (type==='like'?lb:db).classList.remove('active');
     voted = null;
   } else {
     if (voted==='like')    { likes--;    lb.classList.remove('active'); }
     if (voted==='dislike') { dislikes--; db.classList.remove('active'); }
-    if (type==='like')     { likes++;    lb.classList.add('active'); }
-    else                   { dislikes++; db.classList.add('active'); }
+    type==='like' ? likes++ : dislikes++;
+    (type==='like'?lb:db).classList.add('active');
     voted = type;
   }
   lc.textContent = likes >= 1000 ? (likes/1000).toFixed(1)+'k' : likes;
   dc.textContent = dislikes;
-  const btn = type==='like' ? lb : db;
-  btn.style.transform = 'scale(0.96)';
-  setTimeout(() => btn.style.transform = '', 120);
 }
 
-// ── COMMENTS ─────────────────────────────────────────────────────────────────
-let _comments = [];
-let commentVotes = {};
-
-function getDefaultComments(styleName, rank) {
-  return [
-    {name:'Jess M.',   time:'2h ago',  text:`Been wearing ${styleName} since last season and they genuinely go with everything. Worth every penny.`,   up:47, down:3},
-    {name:'Ryan K.',   time:'5h ago',  text:`Not sure about this trend honestly. Interesting to see it at #${rank} — might give it a try though.`,       up:21, down:8},
-    {name:'Laila T.',  time:'8h ago',  text:`Found a perfect version at Madewell on sale. The quality is excellent and holds up after multiple washes.`,  up:63, down:1},
-    {name:'Sophie R.', time:'1d ago',  text:`This ranking is accurate. I've seen this everywhere in NYC this month. The momentum chart tells the story.`, up:38, down:5},
-    {name:'Marcus P.', time:'1d ago',  text:`Love how SeasonalRank shows the signal breakdown — makes it clear why something is trending vs just hype.`,  up:29, down:2},
-  ];
-}
-
-function fmt(n) { return n >= 1000 ? (n/1000).toFixed(1)+'k' : n; }
-
-function renderComments(styleName, rank) {
-  if (!_comments.length) _comments = getDefaultComments(styleName, rank);
+// ── COMMENTS ──────────────────────────────────────────────────────────────────
+function renderComments() {
   const list = document.getElementById('commentsList');
   list.innerHTML = '';
   _comments.forEach((c, i) => {
-    const colorIdx = i % AVATAR_COLORS.length;
-    const initials = c.name.split(' ').map(w=>w[0]).join('').slice(0,2);
-    const upVoted   = commentVotes[i] === 'up';
-    const downVoted = commentVotes[i] === 'down';
-    const div = document.createElement('div');
+    const init = c.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+    const div  = document.createElement('div');
     div.className = 'comment-item';
-    div.style.animationDelay = (i * 0.04) + 's';
     div.innerHTML = `
-      <div class="comment-avatar" style="background:${AVATAR_COLORS[colorIdx]}">${initials}</div>
-      <div class="comment-body">
-        <div class="comment-meta">
-          <span class="comment-name">${c.name}</span>
-          <span class="comment-time">${c.time}</span>
-        </div>
-        <div class="comment-text">${c.text}</div>
-        <div class="comment-actions">
-          <button class="c-action ${upVoted?'voted-up':''}" onclick="voteComment(${i},'up')">
-            <svg width="10" height="10" viewBox="0 0 11 11" fill="none"><path d="M1.5 5h2V9.5h-2V5zM3.5 5L5 1.5a1.2 1.2 0 012.4 0V4H9.5L8.5 9H3.5V5z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span class="c-action-count" id="cup-${i}">${fmt(c.up)}</span>
+      <div class="c-avatar" style="background:${AVATARS[i%AVATARS.length]}">${init}</div>
+      <div class="c-body">
+        <div class="c-meta"><span class="c-name">${c.name}</span><span class="c-time">${c.time}</span></div>
+        <div class="c-text">${c.text}</div>
+        <div class="c-actions">
+          <button class="c-btn ${cVotes[i]==='up'?'up':''}" onclick="cVote(${i},'up')">
+            ▲ <span class="c-num" id="cu${i}">${c.up}</span>
           </button>
-          <button class="c-action ${downVoted?'voted-down':''}" onclick="voteComment(${i},'down')">
-            <svg width="10" height="10" viewBox="0 0 11 11" fill="none"><path d="M9.5 6h-2V1.5h2V6zM7.5 6L6 9.5a1.2 1.2 0 01-2.4 0V7H1.5L2.5 2H7.5V6z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>
-            <span class="c-action-count" id="cdown-${i}">${fmt(c.down)}</span>
+          <button class="c-btn ${cVotes[i]==='dn'?'dn':''}" onclick="cVote(${i},'dn')">
+            ▼ <span class="c-num" id="cd${i}">${c.down}</span>
           </button>
-          <button class="c-action" onclick="replyTo('${c.name}')">reply</button>
+          <button class="c-btn" onclick="replyTo('${c.name}')">reply</button>
         </div>
       </div>`;
     list.appendChild(div);
@@ -510,25 +468,22 @@ function renderComments(styleName, rank) {
   document.getElementById('commentCount').textContent = _comments.length;
 }
 
-function voteComment(i, dir) {
+function cVote(i, dir) {
   const c = _comments[i];
-  const prev = commentVotes[i];
-  if (prev === dir) {
-    if (dir==='up') c.up--; else c.down--;
-    delete commentVotes[i];
-  } else {
-    if (prev==='up')   c.up--;
-    if (prev==='down') c.down--;
-    if (dir==='up')    c.up++;
-    else               c.down++;
-    commentVotes[i] = dir;
+  const prev = cVotes[i];
+  if (prev===dir) { dir==='up'?c.up--:c.down--; delete cVotes[i]; }
+  else {
+    if (prev==='up') c.up--;
+    if (prev==='dn') c.down--;
+    dir==='up' ? c.up++ : c.down++;
+    cVotes[i] = dir;
   }
-  renderComments(currentStyle?.name || '', currentStyle?.rank || 1);
+  renderComments();
 }
 
 function replyTo(name) {
   const ta = document.getElementById('commentInput');
-  ta.value = `@${name} `;
+  ta.value = '@' + name + ' ';
   ta.focus();
   ta.scrollIntoView({behavior:'smooth', block:'center'});
 }
@@ -539,15 +494,13 @@ function postComment() {
   if (!txt) return;
   _comments.unshift({name:'You', time:'just now', text:txt, up:0, down:0});
   ta.value = '';
-  renderComments(currentStyle?.name || '', currentStyle?.rank || 1);
-  document.getElementById('commentsList').scrollIntoView({behavior:'smooth', block:'start'});
+  renderComments();
 }
 
 function shareStyle() {
-  const title = currentStyle ? `${currentStyle.name} — SeasonalRank` : 'SeasonalRank';
-  const text  = currentStyle ? `#${currentStyle.rank} trending style this week in the US` : '';
+  const title = currentStyle ? currentStyle.name + ' — SeasonalRank' : 'SeasonalRank';
   if (navigator.share) {
-    navigator.share({title, text, url: window.location.href});
+    navigator.share({title, url: window.location.href});
   } else {
     navigator.clipboard.writeText(window.location.href).then(() => {
       const btn = document.querySelector('.topbar-share');
@@ -557,8 +510,7 @@ function shareStyle() {
   }
 }
 
-// Init
-loadStyle();
+init();
 </script>
 </body>
 </html>
