@@ -44,26 +44,25 @@ body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;f
 .section-rule::before,.section-rule::after{content:'';flex:1;height:1px;background:var(--fog)}
 .section-rule-text{font-size:7px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
 .grid-section{padding:1.25rem 1.25rem 0}
-.cards-grid{display:flex;flex-direction:column;gap:1px;background:var(--fog);border:1px solid var(--fog)}
-.style-card{background:var(--warm);overflow:hidden;transition:background .2s;display:none;cursor:pointer;flex-direction:row;align-items:stretch}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1px;background:var(--fog);border:1px solid var(--fog)}
+.style-card{background:var(--warm);overflow:hidden;transition:background .2s;display:none;cursor:pointer}
 .style-card.visible{display:flex}
 .style-card:hover{background:var(--cream)}
 .style-card:hover .card-img-wrap img{transform:scale(1.04)}
 .style-card:hover .card-illo{transform:scale(1.04)}
 /* Rank column */
-.card-rank-col{width:52px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-right:1px solid var(--fog);padding:.5rem .25rem;background:var(--cream)}
-.card-rank{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--ink);line-height:1}
-.card-move{font-size:7px;letter-spacing:.08em;font-weight:500;padding:2px 5px}
+.card-rank{position:absolute;top:.5rem;left:.5rem;font-family:'Playfair Display',serif;font-size:22px;font-weight:900;background:var(--ink);color:var(--cream);width:32px;height:32px;display:flex;align-items:center;justify-content:center;z-index:2;line-height:1}
+.card-move{position:absolute;top:.5rem;right:.5rem;font-size:7px;letter-spacing:.08em;font-weight:500;padding:2px 5px;z-index:2}
 .move-up{background:#d4edda;color:#1a5c2a}.move-new{background:var(--blush);color:#7a3b22}.move-down{background:#fde8e8;color:#7a1f1f}.move-flat{background:var(--fog);color:var(--gold)}
 /* Photo image */
-.card-img-wrap{width:90px;min-width:90px;height:110px;overflow:hidden;background:var(--fog);flex-shrink:0;position:relative}
+.card-img-wrap{width:100%;aspect-ratio:3/4;overflow:hidden;background:var(--fog);position:relative;display:block}
 .card-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.25,.8,.25,1)}
 /* SVG illustration fallback */
-.card-illo-wrap{width:90px;min-width:90px;height:110px;overflow:hidden;background:var(--fog);flex-shrink:0;position:relative}
+.card-illo-wrap{width:100%;aspect-ratio:3/4;overflow:hidden;background:var(--fog);display:block;position:relative}
 .card-illo{width:100%;height:100%;transition:transform .5s cubic-bezier(.25,.8,.25,1)}
-.card-body{padding:.6rem .75rem;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.card-body{padding:.55rem .65rem .7rem}
 .card-cat{font-size:7px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:2px}
-.card-name{font-family:'DM Serif Display',serif;font-size:15px;font-style:italic;line-height:1.2;margin-bottom:.35rem}
+.card-name{font-family:'DM Serif Display',serif;font-size:12px;font-style:italic;line-height:1.25;margin-bottom:.45rem}
 .card-metrics{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:.35rem}
 .card-score-label{font-size:6px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:1px}
 .card-score-val{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1}
@@ -224,10 +223,8 @@ function renderCards(styles, cat){
     card.dataset.name = s.name;
 
     card.innerHTML = `
-      <div class="card-rank-col">
-        <div class="card-rank">${rank}</div>
-        <div class="card-move ${mb.cls}">${mb.txt}</div>
-      </div>
+      <div class="card-rank">${rank}</div>
+      <div class="card-move ${mb.cls}">${mb.txt}</div>
       ${buildImageHTML(s, color)}
       <div class="card-body">
         <div class="card-cat" style="color:${color}">${s.cat}</div>
@@ -240,10 +237,11 @@ function renderCards(styles, cat){
           </div>
         </div>
         <div class="card-bar-track"><div class="card-bar-fill" style="width:${score}%;background:${color}"></div></div>
-        <svg class="card-sparkline" width="100%" height="22" viewBox="0 0 150 22" preserveAspectRatio="none">
+        <svg class="card-sparkline" width="100%" height="28" viewBox="0 0 150 28" preserveAspectRatio="none">
           <path d="${sp.d}" fill="none" stroke="${color}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>
-          <circle cx="${sp.last[0].toFixed(1)}" cy="${sp.last[1].toFixed(1)}" r="2" fill="${color}"/>
+          <circle cx="${sp.last[0].toFixed(1)}" cy="${sp.last[1].toFixed(1)}" r="2.5" fill="${color}"/>
         </svg>
+        <div class="card-week-labels"><span>Wk1</span><span>Wk2</span><span>Wk3</span><span>Wk4</span></div>
       </div>`;
 
     card.addEventListener('click', ()=>{
