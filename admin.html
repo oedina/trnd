@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SeasonalRank — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#F7F3EE;--ink:#1C1917;--rose:#C4826A;--gold:#B89A6A;--fog:#E2DDD7;--warm:#FBF8F5;--sage:#8A9E8C;--dark:#0F0D0C}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--dark);color:#e8e0d4;font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh}
+
+/* SIDEBAR */
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+.sidebar{background:#1a1714;border-right:1px solid #2a2520;padding:1.5rem 1rem;display:flex;flex-direction:column;gap:.25rem;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;letter-spacing:-.04em;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid #2a2520}
+.sidebar-logo span{font-style:italic;color:var(--rose)}
+.sidebar-logo small{display:block;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:#5a5450;font-family:'DM Sans',sans-serif;font-weight:300;margin-top:2px}
+.nav-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#7a7268;cursor:pointer;border-radius:2px;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif}
+.nav-item:hover{background:#2a2520;color:#e8e0d4}
+.nav-item.active{background:var(--rose);color:white}
+.nav-item svg{flex-shrink:0;opacity:.7}
+.nav-item.active svg{opacity:1}
+.nav-section{font-size:7px;letter-spacing:.25em;text-transform:uppercase;color:#3a3530;padding:.75rem .75rem .25rem;margin-top:.5rem}
+.sidebar-footer{margin-top:auto;padding-top:1rem;border-top:1px solid #2a2520}
+.sidebar-user{font-size:10px;color:#5a5450;padding:.5rem .75rem}
+.sidebar-user strong{display:block;color:#a8a098;margin-bottom:2px}
+.signout-btn{width:100%;padding:.45rem .75rem;background:none;border:1px solid #2a2520;color:#5a5450;font-size:9px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.signout-btn:hover{border-color:var(--rose);color:var(--rose)}
+
+/* MAIN */
+.main{padding:2rem;overflow-x:hidden}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;padding-bottom:1rem;border-bottom:1px solid #2a2520}
+.page-title{font-family:'DM Serif Display',serif;font-size:22px;font-style:italic;color:#e8e0d4}
+.page-badge{font-size:8px;letter-spacing:.2em;text-transform:uppercase;padding:.25rem .6rem;background:var(--rose);color:white}
+
+/* PANELS */
+.panel{background:#1a1714;border:1px solid #2a2520;margin-bottom:1.25rem}
+.panel-header{padding:.85rem 1rem;border-bottom:1px solid #2a2520;display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.panel-body{padding:1rem}
+
+/* STATS GRID */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#2a2520;border:1px solid #2a2520;margin-bottom:1.25rem}
+.stat-card{background:#1a1714;padding:1.1rem 1rem}
+.stat-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;line-height:1;margin-bottom:4px}
+.stat-label{font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:#5a5450}
+.stat-change{font-size:9px;margin-top:4px}
+.up{color:#7ecf8a}
+.dn{color:#f08080}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:11px}
+thead th{text-align:left;font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:#5a5450;padding:.5rem .75rem;border-bottom:1px solid #2a2520;white-space:nowrap}
+tbody td{padding:.55rem .75rem;border-bottom:1px solid #1f1c19;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:#1f1c19}
+.rank-badge{font-family:'Playfair Display',serif;font-size:13px;font-weight:700}
+.cat-pill{font-size:7px;letter-spacing:.12em;text-transform:uppercase;padding:1px 5px;display:inline-block}
+.score-bar{height:3px;background:#2a2520;border-radius:2px;width:80px;display:inline-block;vertical-align:middle;margin-left:6px}
+.score-fill{height:3px;border-radius:2px;background:var(--rose)}
+.mom-val{font-size:10px;font-weight:500}
+
+/* ACTION BUTTONS */
+.btn{font-size:8px;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .7rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+.btn-primary{background:var(--rose);color:white}
+.btn-primary:hover{background:#a05a44}
+.btn-ghost{background:none;border:1px solid #2a2520;color:#7a7268}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose)}
+.btn-danger{background:none;border:1px solid #5a2020;color:#f08080}
+.btn-danger:hover{background:#5a2020}
+
+/* USERS TABLE */
+.role-badge{font-size:7px;letter-spacing:.12em;text-transform:uppercase;padding:1px 6px}
+.role-admin{background:rgba(196,130,106,.15);color:var(--rose)}
+.role-user{background:rgba(138,158,140,.1);color:var(--sage)}
+
+/* FORM */
+.form-field{margin-bottom:.85rem}
+.form-field label{display:block;font-size:7px;letter-spacing:.2em;text-transform:uppercase;color:#5a5450;margin-bottom:.3rem}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:.55rem .75rem;background:#0F0D0C;border:1px solid #2a2520;color:#e8e0d4;font-family:'DM Sans',sans-serif;font-size:11px;outline:none;transition:border-color .15s}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--rose)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+
+/* TABS */
+.tab-row{display:flex;gap:0;border-bottom:1px solid #2a2520;margin-bottom:1.25rem}
+.tab{font-size:8px;letter-spacing:.18em;text-transform:uppercase;padding:.5rem 1rem;background:none;border:none;border-bottom:2px solid transparent;color:#5a5450;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s;margin-bottom:-1px}
+.tab.active{color:var(--rose);border-bottom-color:var(--rose)}
+
+/* WORKFLOW STATUS */
+.workflow-row{display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid #1f1c19}
+.workflow-row:last-child{border-bottom:none}
+.wf-status{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.wf-green{background:#7ecf8a}
+.wf-gold{background:var(--gold)}
+.wf-name{font-size:11px;color:#a8a098}
+.wf-time{font-size:9px;color:#5a5450}
+
+/* SECTION HIDE */
+.section{display:none}
+.section.active{display:block}
+
+/* NOTICE */
+.notice{font-size:10px;padding:.6rem .85rem;background:rgba(196,130,106,.1);border-left:2px solid var(--rose);color:#c8a090;margin-bottom:1rem}
+</style>
+</head>
+<body>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">Seasonal<span>Rank</span><small>Admin Panel</small></div>
+
+  <div class="nav-section">Overview</div>
+  <button class="nav-item active" onclick="showSection('dashboard')">
+    <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><rect x="1" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.2"/><rect x="7" y="1" width="5" height="5" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="7" width="5" height="5" stroke="currentColor" stroke-width="1.2"/><rect x="7" y="7" width="5" height="5" stroke="currentColor" stroke-width="1.2"/></svg>
+    Dashboard
+  </button>
+  <button class="nav-item" onclick="showSection('rankings')">
+    <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><path d="M2 10V6M5 10V4M8 10V7M11 10V2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Rankings
+  </button>
+
+  <div class="nav-section">Manage</div>
+  <button class="nav-item" onclick="showSection('styles')">
+    <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><path d="M1 3h11M1 6.5h11M1 10h6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Style list
+  </button>
+  <button class="nav-item" onclick="showSection('brands')">
+    <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><path d="M2 11V5l4-3 4 3v6M5 11V8h3v3" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+    Brand links
+  </button>
+  <button class="nav-item" onclick="showSection('users')">
+    <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><circle cx="6.5" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 11c0-2.5 2.5-4 5.5-4s5.5 1.5 5.5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Users
+  </button>
+
+  <div class="nav-section">System</div>
+  <button class="nav-item" onclick="showSection('workflow')">
+    <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 4v2.5l1.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Workflow
+  </button>
+  <button class="nav-item" onclick="showSection('settings')">
+    <svg width="13" height="13" fill="none" viewBox="0 0 13 13"><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 1v1.5M6.5 10.5V12M1 6.5h1.5M10.5 6.5H12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Settings
+  </button>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-user"><strong id="adminName">Admin</strong><span id="adminEmail">—</span></div>
+    <button class="signout-btn" onclick="signOut()">Sign out</button>
+    <div style="margin-top:.75rem">
+      <a href="index.html" style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#3a3530;text-decoration:none">← View site</a>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- ── DASHBOARD ── -->
+  <div class="section active" id="sec-dashboard">
+    <div class="page-header">
+      <div class="page-title">Dashboard</div>
+      <div class="page-badge">Live</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--rose)" id="dTotalUsers">0</div>
+        <div class="stat-label">Registered users</div>
+        <div class="stat-change up">↑ New this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--gold)">20</div>
+        <div class="stat-label">Styles tracked</div>
+        <div class="stat-change" style="color:#5a5450">Spring 2026</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="color:var(--sage)" id="dRising">—</div>
+        <div class="stat-label">Rising this week</div>
+        <div class="stat-change up">↑ vs last week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="dLastUpdate" style="font-size:14px;padding-top:6px">—</div>
+        <div class="stat-label">Last data update</div>
+        <div class="stat-change" style="color:#5a5450">Auto every Monday</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">Top 5 this week</div></div>
+        <div class="panel-body" style="padding:0">
+          <table>
+            <thead><tr><th>#</th><th>Style</th><th>Score</th><th>Mom.</th></tr></thead>
+            <tbody id="dashTop5"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="panel-title">Workflow status</div></div>
+        <div class="panel-body">
+          <div class="workflow-row">
+            <div style="display:flex;align-items:center;gap:.6rem"><div class="wf-status wf-green"></div><div class="wf-name">Weekly Trend Update</div></div>
+            <div class="wf-time">Every Monday 9AM UTC</div>
+          </div>
+          <div class="workflow-row">
+            <div style="display:flex;align-items:center;gap:.6rem"><div class="wf-status wf-green"></div><div class="wf-name">GitHub Pages Deploy</div></div>
+            <div class="wf-time">Auto on push</div>
+          </div>
+          <div class="workflow-row">
+            <div style="display:flex;align-items:center;gap:.6rem"><div class="wf-status wf-gold"></div><div class="wf-name">TikTok signal</div></div>
+            <div class="wf-time">Partial — blocked</div>
+          </div>
+          <div class="workflow-row">
+            <div style="display:flex;align-items:center;gap:.6rem"><div class="wf-status wf-green"></div><div class="wf-name">Unsplash photos</div></div>
+            <div class="wf-time">20/20 fetched</div>
+          </div>
+          <div style="margin-top:1rem">
+            <a href="https://github.com/oedina/trnd/actions" target="_blank" class="btn btn-ghost" style="display:inline-block;text-decoration:none">View GitHub Actions ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RANKINGS ── -->
+  <div class="section" id="sec-rankings">
+    <div class="page-header">
+      <div class="page-title">Current rankings</div>
+      <button class="btn btn-primary" onclick="loadData()">↻ Refresh</button>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">This week — all 20 styles</div></div>
+      <div class="panel-body" style="padding:0">
+        <table>
+          <thead><tr><th>#</th><th>Style</th><th>Category</th><th>Score</th><th>Google</th><th>TikTok</th><th>YouTube</th><th>Mom.</th><th>Photo</th></tr></thead>
+          <tbody id="rankingsTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── STYLE LIST ── -->
+  <div class="section" id="sec-styles">
+    <div class="page-header">
+      <div class="page-title">Style list</div>
+      <button class="btn btn-primary" onclick="showAddStyle()">+ Add style</button>
+    </div>
+    <div class="notice">Editing this list changes which styles are tracked next Monday. Changes take effect on the next workflow run.</div>
+    <div class="panel" id="addStylePanel" style="display:none">
+      <div class="panel-header"><div class="panel-title">Add new style</div></div>
+      <div class="panel-body">
+        <div class="form-row">
+          <div class="form-field"><label>Style name</label><input type="text" id="newStyleName" placeholder="e.g. Barrel leg jeans"></div>
+          <div class="form-field"><label>Category</label>
+            <select id="newStyleCat">
+              <option>Bottoms</option><option>Tops</option><option>Dresses</option>
+              <option>Footwear</option><option>Outerwear</option><option>Aesthetic</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label>Google Trends keyword</label><input type="text" id="newStyleKw" placeholder="e.g. barrel leg jeans"></div>
+          <div class="form-field"><label>TikTok hashtag (no #)</label><input type="text" id="newStyleTt" placeholder="e.g. barreljeans"></div>
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn btn-primary" onclick="addStyle()">Add style</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('addStylePanel').style.display='none'">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-body" style="padding:0"><table><thead><tr><th>#</th><th>Style name</th><th>Category</th><th>Keyword</th><th>TikTok tag</th><th>Action</th></tr></thead><tbody id="stylesTable"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ── BRAND LINKS ── -->
+  <div class="section" id="sec-brands">
+    <div class="page-header">
+      <div class="page-title">Brand links</div>
+    </div>
+    <div class="notice">Brand links shown on the detail page. Select a style below to view and edit its brands. Changes are saved locally and used by the site immediately.</div>
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Select style</div>
+        <select id="brandStyleSelect" style="background:#0F0D0C;border:1px solid #2a2520;color:#e8e0d4;font-family:'DM Sans',sans-serif;font-size:10px;padding:.3rem .5rem" onchange="loadBrandLinks()"></select>
+      </div>
+      <div class="panel-body" style="padding:0">
+        <table><thead><tr><th>Brand</th><th>Tier</th><th>Price range</th><th>URL</th><th>Action</th></tr></thead><tbody id="brandsTable"></tbody></table>
+      </div>
+      <div class="panel-body" style="border-top:1px solid #2a2520">
+        <div class="form-row">
+          <div class="form-field"><label>Brand name</label><input type="text" id="newBrandName" placeholder="e.g. Zara"></div>
+          <div class="form-field"><label>Tier</label>
+            <select id="newBrandTier"><option>Budget</option><option>Accessible</option><option>Mid-range</option><option>Premium</option><option>Luxury</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field"><label>Price range</label><input type="text" id="newBrandPrice" placeholder="e.g. $40–$100"></div>
+          <div class="form-field"><label>URL (direct product link)</label><input type="url" id="newBrandUrl" placeholder="https://zara.com/search?term=..."></div>
+        </div>
+        <button class="btn btn-primary" onclick="addBrandLink()">Add brand link</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── USERS ── -->
+  <div class="section" id="sec-users">
+    <div class="page-header">
+      <div class="page-title">Users</div>
+      <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#5a5450" id="userCount">0 users</div>
+    </div>
+    <div class="panel">
+      <div class="panel-body" style="padding:0">
+        <table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Action</th></tr></thead><tbody id="usersTable"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── WORKFLOW ── -->
+  <div class="section" id="sec-workflow">
+    <div class="page-header"><div class="page-title">Workflow & data</div></div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">GitHub Actions</div></div>
+      <div class="panel-body">
+        <p style="font-size:11px;color:#7a7268;line-height:1.7;margin-bottom:1rem">The weekly trend fetch runs automatically every Monday at 9AM UTC via GitHub Actions. You can also trigger it manually from the Actions tab in your GitHub repo.</p>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <a href="https://github.com/oedina/trnd/actions" target="_blank" class="btn btn-primary" style="text-decoration:none">Open GitHub Actions ↗</a>
+          <a href="https://github.com/oedina/trnd" target="_blank" class="btn btn-ghost" style="text-decoration:none">View repository ↗</a>
+          <a href="data.json" target="_blank" class="btn btn-ghost" style="text-decoration:none">View data.json ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Data sources status</div></div>
+      <div class="panel-body" style="padding:0">
+        <table>
+          <thead><tr><th>Source</th><th>Weight</th><th>Status</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Google Trends</td><td>40%</td><td style="color:#7ecf8a">✓ Active</td><td style="color:#5a5450">Pytrends, free, no key needed</td></tr>
+            <tr><td>TikTok Creative Center</td><td>30%</td><td style="color:var(--gold)">⚠ Partial</td><td style="color:#5a5450">Scraping blocked, returning defaults</td></tr>
+            <tr><td>YouTube Data API</td><td>20%</td><td style="color:#7ecf8a">✓ Active</td><td style="color:#5a5450">Free 10k units/day, key in Secrets</td></tr>
+            <tr><td>Pinterest Trends</td><td>10%</td><td style="color:var(--gold)">⚠ Partial</td><td style="color:#5a5450">Limited public access</td></tr>
+            <tr><td>Unsplash Photos</td><td>—</td><td style="color:#7ecf8a">✓ Active</td><td style="color:#5a5450">20/20 photos fetched, saved in images/</td></tr>
+            <tr><td>Gemini Flash AI</td><td>—</td><td style="color:#7ecf8a">✓ Active</td><td style="color:#5a5450">Insights for top 10 styles</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SETTINGS ── -->
+  <div class="section" id="sec-settings">
+    <div class="page-header"><div class="page-title">Settings</div></div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Site settings</div></div>
+      <div class="panel-body">
+        <div class="form-field"><label>Site name</label><input type="text" id="setSiteName" value="SeasonalRank"></div>
+        <div class="form-field"><label>Market / geo</label>
+          <select id="setGeo"><option value="US">United States</option><option value="GB">United Kingdom</option><option value="AU">Australia</option></select>
+        </div>
+        <div class="form-field"><label>Number of styles shown</label><input type="number" id="setStyles" value="20" min="5" max="50"></div>
+        <div class="form-field"><label>Update frequency</label>
+          <select id="setFreq"><option>Weekly (Monday)</option><option>Bi-weekly</option><option>Monthly</option></select>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()">Save settings</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Danger zone</div></div>
+      <div class="panel-body" style="display:flex;gap:.75rem;flex-wrap:wrap">
+        <button class="btn btn-danger" onclick="clearVotes()">Clear all votes</button>
+        <button class="btn btn-danger" onclick="clearComments()">Clear all comments</button>
+        <button class="btn btn-danger" onclick="if(confirm('Reset all user data?'))localStorage.clear()">Reset all local data</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<script>
+// ── AUTH CHECK ────────────────────────────────────────────────────────────────
+const session = JSON.parse(localStorage.getItem('sr_session') || 'null');
+if (!session) { window.location.href = 'login.html?next=admin.html'; }
+else if (session.role !== 'admin') {
+  document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:1rem;font-family:DM Sans,sans-serif"><div style="font-size:14px;color:#c4826a">Access denied — admin only</div><a href="index.html" style="font-size:11px;color:#5a5450;text-decoration:none">← Back to site</a></div>';
+}
+
+document.getElementById('adminName').textContent  = session?.name || 'Admin';
+document.getElementById('adminEmail').textContent = session?.email || '';
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (name==='rankings') loadRankings();
+  if (name==='users')    loadUsers();
+  if (name==='brands')   loadBrandStyleSelect();
+  if (name==='styles')   loadStylesTable();
+  if (name==='dashboard') loadDashboard();
+}
+
+// ── LOAD DATA.JSON ────────────────────────────────────────────────────────────
+let siteData = null;
+async function loadData() {
+  try {
+    const r = await fetch('data.json?v=' + Date.now());
+    siteData = await r.json();
+    loadDashboard();
+    return siteData;
+  } catch(e) { console.warn('Could not load data.json'); return null; }
+}
+
+function loadDashboard() {
+  if (!siteData) return;
+  document.getElementById('dRising').textContent    = siteData.rising_count || '—';
+  document.getElementById('dLastUpdate').textContent = siteData.updated_at || '—';
+  const users = JSON.parse(localStorage.getItem('sr_users') || '{}');
+  document.getElementById('dTotalUsers').textContent = Object.keys(users).length;
+  // Top 5
+  const tbody = document.getElementById('dashTop5');
+  tbody.innerHTML = '';
+  (siteData.styles || []).slice(0,5).forEach(s => {
+    const color = {Bottoms:'#185FA5',Tops:'#0F6E56',Dresses:'#993556',Footwear:'#854F0B',Outerwear:'#534AB7',Aesthetic:'#C4826A'}[s.cat]||'#888';
+    tbody.innerHTML += `<tr>
+      <td class="rank-badge" style="color:${color}">${s.rank}</td>
+      <td>${s.name}</td>
+      <td><span class="cat-pill" style="background:${color}22;color:${color}">${s.cat}</span></td>
+      <td>${s.final_score||s.score||'—'}</td></tr>`;
+  });
+}
+
+function loadRankings() {
+  if (!siteData) { loadData().then(loadRankings); return; }
+  const tbody = document.getElementById('rankingsTable');
+  tbody.innerHTML = '';
+  const CAT={Bottoms:'#185FA5',Tops:'#0F6E56',Dresses:'#993556',Footwear:'#854F0B',Outerwear:'#534AB7',Aesthetic:'#C4826A'};
+  (siteData.styles||[]).forEach(s => {
+    const color = CAT[s.cat]||'#888';
+    const score = s.final_score||s.score||0;
+    const mom   = s.momentum_pct||0;
+    const sig   = s.signals||{};
+    tbody.innerHTML += `<tr>
+      <td class="rank-badge">${s.rank}</td>
+      <td>${s.name}</td>
+      <td><span class="cat-pill" style="background:${color}22;color:${color}">${s.cat}</span></td>
+      <td>${score}<span class="score-bar"><span class="score-fill" style="width:${score}%"></span></span></td>
+      <td>${sig.google?.score||0}</td>
+      <td>${sig.tiktok?.score||0}</td>
+      <td>${sig.youtube?.score||0}</td>
+      <td class="mom-val" style="color:${mom>=0?'#7ecf8a':'#f08080'}">${mom>=0?'+':''}${mom}%</td>
+      <td style="color:${s.photo?'#7ecf8a':'#5a5450'}">${s.photo?'✓':'—'}</td></tr>`;
+  });
+}
+
+// ── STYLES TABLE ──────────────────────────────────────────────────────────────
+const DEFAULT_STYLES = [
+  {name:'Barrel leg jeans',cat:'Bottoms',keyword:'barrel leg jeans',tiktok:'barreljeans'},
+  {name:'Linen wide trousers',cat:'Bottoms',keyword:'linen wide leg pants',tiktok:'linentrousers'},
+  {name:'Sheer overlay dress',cat:'Dresses',keyword:'sheer overlay dress',tiktok:'sheerdress'},
+  {name:'Coquette aesthetic',cat:'Aesthetic',keyword:'coquette aesthetic outfit',tiktok:'coquetteaesthetic'},
+  {name:'Ballet flat',cat:'Footwear',keyword:'ballet flat shoes',tiktok:'balletflats'},
+  {name:'Broderie top',cat:'Tops',keyword:'broderie anglaise top',tiktok:'broderietop'},
+  {name:'Maxi slip dress',cat:'Dresses',keyword:'maxi slip dress',tiktok:'slipdress'},
+  {name:'Cargo wide leg',cat:'Bottoms',keyword:'cargo wide leg pants',tiktok:'cargopants'},
+  {name:'Varsity jacket',cat:'Outerwear',keyword:'varsity jacket women',tiktok:'varsityjacket'},
+  {name:'Butter yellow set',cat:'Aesthetic',keyword:'butter yellow matching set',tiktok:'butteryellow'},
+  {name:'Platform mule',cat:'Footwear',keyword:'platform mule shoes',tiktok:'platformmules'},
+  {name:'Lace trim cami',cat:'Tops',keyword:'lace trim camisole',tiktok:'lacecami'},
+  {name:'Denim midi skirt',cat:'Bottoms',keyword:'denim midi skirt',tiktok:'denimmidiskirt'},
+  {name:'Bubble hem skirt',cat:'Dresses',keyword:'bubble hem skirt',tiktok:'bubbleskirt'},
+  {name:'Trench coat',cat:'Outerwear',keyword:'trench coat women spring',tiktok:'trenchcoat'},
+  {name:'Ruched sundress',cat:'Dresses',keyword:'ruched sundress',tiktok:'rucheddress'},
+  {name:'Mary jane heel',cat:'Footwear',keyword:'mary jane heels',tiktok:'maryjaneshoes'},
+  {name:'Oversized blazer',cat:'Outerwear',keyword:'oversized blazer women',tiktok:'oversizedblazer'},
+  {name:'Tie-front top',cat:'Tops',keyword:'tie front top women',tiktok:'tiefronttop'},
+  {name:'Ribbed tank set',cat:'Tops',keyword:'ribbed tank matching set',tiktok:'ribbedset'},
+];
+
+function getStyles() { return JSON.parse(localStorage.getItem('sr_styles') || 'null') || DEFAULT_STYLES; }
+function saveStyles(s) { localStorage.setItem('sr_styles', JSON.stringify(s)); }
+
+function loadStylesTable() {
+  const styles = getStyles();
+  const CAT={Bottoms:'#185FA5',Tops:'#0F6E56',Dresses:'#993556',Footwear:'#854F0B',Outerwear:'#534AB7',Aesthetic:'#C4826A'};
+  const tbody = document.getElementById('stylesTable');
+  tbody.innerHTML = '';
+  styles.forEach((s,i) => {
+    const color = CAT[s.cat]||'#888';
+    tbody.innerHTML += `<tr>
+      <td style="color:#5a5450">${i+1}</td>
+      <td>${s.name}</td>
+      <td><span class="cat-pill" style="background:${color}22;color:${color}">${s.cat}</span></td>
+      <td style="color:#5a5450;font-size:10px">${s.keyword}</td>
+      <td style="color:#5a5450;font-size:10px">#${s.tiktok}</td>
+      <td><button class="btn btn-danger" onclick="removeStyle(${i})">Remove</button></td></tr>`;
+  });
+}
+
+function showAddStyle() { document.getElementById('addStylePanel').style.display='block'; }
+
+function addStyle() {
+  const name = document.getElementById('newStyleName').value.trim();
+  const cat  = document.getElementById('newStyleCat').value;
+  const kw   = document.getElementById('newStyleKw').value.trim();
+  const tt   = document.getElementById('newStyleTt').value.trim().replace('#','');
+  if (!name||!kw) return alert('Please fill in name and keyword');
+  const styles = getStyles();
+  styles.push({name, cat, keyword:kw, tiktok:tt});
+  saveStyles(styles);
+  loadStylesTable();
+  document.getElementById('addStylePanel').style.display='none';
+  ['newStyleName','newStyleKw','newStyleTt'].forEach(id=>document.getElementById(id).value='');
+}
+
+function removeStyle(i) {
+  if (!confirm('Remove this style?')) return;
+  const styles = getStyles();
+  styles.splice(i,1);
+  saveStyles(styles);
+  loadStylesTable();
+}
+
+// ── BRAND LINKS ───────────────────────────────────────────────────────────────
+function loadBrandStyleSelect() {
+  const sel = document.getElementById('brandStyleSelect');
+  const styles = getStyles();
+  sel.innerHTML = styles.map(s=>`<option value="${s.name}">${s.name}</option>`).join('');
+  loadBrandLinks();
+}
+
+function getBrandLinks(styleName) {
+  const all = JSON.parse(localStorage.getItem('sr_brands') || '{}');
+  return all[styleName] || [];
+}
+
+function saveBrandLinks(styleName, links) {
+  const all = JSON.parse(localStorage.getItem('sr_brands') || '{}');
+  all[styleName] = links;
+  localStorage.setItem('sr_brands', JSON.stringify(all));
+}
+
+function loadBrandLinks() {
+  const style  = document.getElementById('brandStyleSelect').value;
+  const brands = getBrandLinks(style);
+  const tbody  = document.getElementById('brandsTable');
+  const TIER_C = {Budget:'#888780',Accessible:'#8A9E8C','Mid-range':'#B89A6A',Premium:'#C4826A',Luxury:'#534AB7'};
+  tbody.innerHTML = '';
+  if (!brands.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:#3a3530;text-align:center;padding:1.5rem">No custom links yet — using default brands</td></tr>';
+    return;
+  }
+  brands.forEach((b,i) => {
+    tbody.innerHTML += `<tr>
+      <td style="font-weight:500">${b.name}</td>
+      <td><span style="font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:${TIER_C[b.tier]||'#888'}">${b.tier}</span></td>
+      <td style="color:var(--rose)">${b.price}</td>
+      <td><a href="${b.url}" target="_blank" style="color:#5a5450;font-size:9px;text-decoration:none;word-break:break-all">${b.url.slice(0,40)}…</a></td>
+      <td><button class="btn btn-danger" onclick="removeBrand('${style}',${i})">×</button></td></tr>`;
+  });
+}
+
+function addBrandLink() {
+  const style = document.getElementById('brandStyleSelect').value;
+  const name  = document.getElementById('newBrandName').value.trim();
+  const tier  = document.getElementById('newBrandTier').value;
+  const price = document.getElementById('newBrandPrice').value.trim();
+  const url   = document.getElementById('newBrandUrl').value.trim();
+  if (!name||!url) return alert('Please fill in brand name and URL');
+  const brands = getBrandLinks(style);
+  brands.push({name,tier,price,url});
+  saveBrandLinks(style, brands);
+  loadBrandLinks();
+  ['newBrandName','newBrandPrice','newBrandUrl'].forEach(id=>document.getElementById(id).value='');
+}
+
+function removeBrand(style,i) {
+  const brands = getBrandLinks(style);
+  brands.splice(i,1);
+  saveBrandLinks(style, brands);
+  loadBrandLinks();
+}
+
+// ── USERS ─────────────────────────────────────────────────────────────────────
+function loadUsers() {
+  const users = JSON.parse(localStorage.getItem('sr_users') || '{}');
+  const tbody = document.getElementById('usersTable');
+  const list  = Object.entries(users);
+  document.getElementById('userCount').textContent = list.length + ' users';
+  tbody.innerHTML = '';
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:#3a3530;text-align:center;padding:1.5rem">No users yet</td></tr>';
+    return;
+  }
+  list.forEach(([email, u]) => {
+    const joined = u.joined ? new Date(u.joined).toLocaleDateString() : '—';
+    tbody.innerHTML += `<tr>
+      <td style="font-weight:500">${u.name}</td>
+      <td style="color:#5a5450">${email}</td>
+      <td><span class="role-badge ${u.role==='admin'?'role-admin':'role-user'}">${u.role}</span></td>
+      <td style="color:#5a5450">${joined}</td>
+      <td>
+        ${u.role!=='admin'?`<button class="btn btn-ghost" style="font-size:7px" onclick="makeAdmin('${email}')">Make admin</button>`:''}
+        <button class="btn btn-danger" style="font-size:7px;margin-left:4px" onclick="deleteUser('${email}')">Delete</button>
+      </td></tr>`;
+  });
+}
+
+function makeAdmin(email) {
+  const users = JSON.parse(localStorage.getItem('sr_users') || '{}');
+  if (users[email]) { users[email].role = 'admin'; localStorage.setItem('sr_users', JSON.stringify(users)); loadUsers(); }
+}
+
+function deleteUser(email) {
+  if (email === session.email) return alert("You can't delete your own account.");
+  if (!confirm('Delete user ' + email + '?')) return;
+  const users = JSON.parse(localStorage.getItem('sr_users') || '{}');
+  delete users[email];
+  localStorage.setItem('sr_users', JSON.stringify(users));
+  loadUsers();
+}
+
+// ── SETTINGS ─────────────────────────────────────────────────────────────────
+function saveSettings() {
+  const cfg = {
+    siteName: document.getElementById('setSiteName').value,
+    geo:      document.getElementById('setGeo').value,
+    styles:   document.getElementById('setStyles').value,
+    freq:     document.getElementById('setFreq').value,
+  };
+  localStorage.setItem('sr_settings', JSON.stringify(cfg));
+  alert('Settings saved');
+}
+function clearVotes()    { localStorage.removeItem('sr_votes');    alert('Votes cleared'); }
+function clearComments() { localStorage.removeItem('sr_comments'); alert('Comments cleared'); }
+
+// ── SIGN OUT ──────────────────────────────────────────────────────────────────
+function signOut() {
+  localStorage.removeItem('sr_session');
+  window.location.href = 'login.html';
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
