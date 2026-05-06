@@ -375,12 +375,8 @@ function renderAll(s) {
     sigBars.appendChild(div);
   });
 
-  // Vote counts
-  const seed = s.name.length * rank;
-  likes    = Math.floor(seed * 37 + 120);
-  dislikes = Math.floor(seed * 5 + 18);
-  document.getElementById('likeCount').textContent    = likes;
-  document.getElementById('dislikeCount').textContent = dislikes;
+  // Vote counts — load from localStorage
+  initVotes(s);
 
   // Brands
   renderBrands(s.name);
@@ -396,27 +392,52 @@ function renderAll(s) {
   renderComments();
 }
 
-// ── BRANDS ────────────────────────────────────────────────────────────────────
+// ── BRANDS — checks admin custom links first ──────────────────────────────────
 function renderBrands(name) {
-  const list  = BRANDS[name] || BRANDS['default'];
-  const wrap  = document.getElementById('brandsWrap');
+  // Check if admin has saved custom links for this style
+  const adminBrands = JSON.parse(localStorage.getItem('sr_brands') || '{}');
+  const customLinks = adminBrands[name] || [];
+  const wrap = document.getElementById('brandsWrap');
   wrap.innerHTML = '';
-  list.forEach(b => {
-    const a = document.createElement('a');
-    a.className = 'brand-card';
-    a.href      = b.url;
-    a.target    = '_blank';
-    a.rel       = 'noopener noreferrer';
-    a.innerHTML = `
-      <div class="b-logo" style="color:${b.color};border-color:${b.color}33">${b.logo}</div>
-      <div class="b-info">
-        <div class="b-name">${b.name}</div>
-        <div class="b-tier"><span class="b-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>${b.tier}</div>
-        <div class="b-price">${b.price}</div>
-      </div>
-      <div class="b-arrow">→</div>`;
-    wrap.appendChild(a);
-  });
+
+  if (customLinks.length > 0) {
+    // Use admin-saved links with direct product URLs
+    customLinks.forEach(b => {
+      const a = document.createElement('a');
+      a.className = 'brand-card';
+      a.href      = b.url;
+      a.target    = '_blank';
+      a.rel       = 'noopener noreferrer';
+      a.innerHTML = `
+        <div class="b-logo" style="color:#C4826A;border-color:#C4826A33">${b.name.slice(0,3).toUpperCase()}</div>
+        <div class="b-info">
+          <div class="b-name">${b.name}</div>
+          <div class="b-tier"><span class="b-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>${b.tier}</div>
+          <div class="b-price">${b.price}</div>
+        </div>
+        <div class="b-arrow">→</div>`;
+      wrap.appendChild(a);
+    });
+  } else {
+    // Use default hardcoded brands
+    const list = BRANDS[name] || BRANDS['default'];
+    list.forEach(b => {
+      const a = document.createElement('a');
+      a.className = 'brand-card';
+      a.href      = b.url;
+      a.target    = '_blank';
+      a.rel       = 'noopener noreferrer';
+      a.innerHTML = `
+        <div class="b-logo" style="color:${b.color};border-color:${b.color}33">${b.logo}</div>
+        <div class="b-info">
+          <div class="b-name">${b.name}</div>
+          <div class="b-tier"><span class="b-dot" style="background:${TIER_COLOR[b.tier]||'#888'}"></span>${b.tier}</div>
+          <div class="b-price">${b.price}</div>
+        </div>
+        <div class="b-arrow">→</div>`;
+      wrap.appendChild(a);
+    });
+  }
 }
 
 // ── VOTE ──────────────────────────────────────────────────────────────────────
