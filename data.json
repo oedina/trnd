@@ -1,7 +1,7 @@
 {
-  "updated_at": "October 05, 2026",
-  "updated_iso": "2026-10-05T17:32:14.180402+00:00",
-  "week_of": "2026-10-05",
+  "updated_at": "October 12, 2026",
+  "updated_iso": "2026-10-12T18:19:36.032088+00:00",
+  "week_of": "2026-10-12",
   "season": "Fall",
   "year": 2026,
   "geo": "US",
@@ -131,128 +131,14 @@
       "momentum_pct": 0.0
     },
     {
-      "name": "Ruched sundress",
-      "cat": "Dresses",
-      "final_score": 30,
-      "weeks": [
-        30,
-        30,
-        30,
-        30
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "ruched sundress"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#rucheddress"
-        },
-        "youtube": {
-          "score": 89,
-          "weight": 0.2,
-          "query": "ruched dress outfit"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "ruched sundress"
-        }
-      },
-      "photo": "images/ruched-sundress.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 4,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Denim midi skirt",
-      "cat": "Bottoms",
-      "final_score": 21,
-      "weeks": [
-        21,
-        21,
-        21,
-        21
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "denim midi skirt"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#denimmidiskirt"
-        },
-        "youtube": {
-          "score": 44,
-          "weight": 0.2,
-          "query": "denim midi skirt outfit"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "denim midi skirt"
-        }
-      },
-      "photo": "images/denim-midi-skirt.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 5,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Barrel leg jeans",
-      "cat": "Bottoms",
-      "final_score": 19,
-      "weeks": [
-        19,
-        19,
-        19,
-        19
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "barrel leg jeans"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#barreljeans"
-        },
-        "youtube": {
-          "score": 33,
-          "weight": 0.2,
-          "query": "barrel leg jeans outfit"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "barrel leg jeans"
-        }
-      },
-      "photo": "images/barrel-leg-jeans.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 6,
-      "momentum_pct": 0.0
-    },
-    {
       "name": "Broderie top",
       "cat": "Tops",
-      "final_score": 16,
+      "final_score": 25,
       "weeks": [
-        16,
-        16,
-        16,
-        16
+        25,
+        25,
+        25,
+        25
       ],
       "signals": {
         "google": {
@@ -266,7 +152,7 @@
           "hashtag": "#broderietop"
         },
         "youtube": {
-          "score": 22,
+          "score": 67,
           "weight": 0.2,
           "query": "broderie top outfit"
         },
@@ -279,42 +165,156 @@
       "photo": "images/broderie-top.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 7,
+      "rank": 4,
       "momentum_pct": 0.0
     },
     {
-      "name": "Mary jane heel",
-      "cat": "Footwear",
-      "final_score": 16,
+      "name": "Ruched sundress",
+      "cat": "Dresses",
+      "final_score": 23,
       "weeks": [
-        16,
-        16,
-        16,
-        16
+        23,
+        23,
+        23,
+        23
       ],
       "signals": {
         "google": {
           "score": 30,
           "weight": 0.4,
-          "keyword": "mary jane heels"
+          "keyword": "ruched sundress"
         },
         "tiktok": {
           "score": 0,
           "weight": 0.3,
-          "hashtag": "#maryjaneshoes"
+          "hashtag": "#rucheddress"
         },
         "youtube": {
-          "score": 22,
+          "score": 56,
           "weight": 0.2,
-          "query": "mary jane heels outfit"
+          "query": "ruched dress outfit"
         },
         "pinterest": {
           "score": 0,
           "weight": 0.1,
-          "keyword": "mary jane heels"
+          "keyword": "ruched sundress"
         }
       },
-      "photo": "images/mary-jane-heel.jpg",
+      "photo": "images/ruched-sundress.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 5,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Tie-front top",
+      "cat": "Tops",
+      "final_score": 21,
+      "weeks": [
+        21,
+        21,
+        21,
+        21
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "tie front top women"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#tiefronttop"
+        },
+        "youtube": {
+          "score": 44,
+          "weight": 0.2,
+          "query": "tie front top outfit"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "tie front top women"
+        }
+      },
+      "photo": "images/tie-front-top.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 6,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Ballet flat",
+      "cat": "Footwear",
+      "final_score": 19,
+      "weeks": [
+        19,
+        19,
+        19,
+        19
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "ballet flat shoes"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#balletflats"
+        },
+        "youtube": {
+          "score": 33,
+          "weight": 0.2,
+          "query": "ballet flats outfit 2026"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "ballet flat shoes"
+        }
+      },
+      "photo": "images/ballet-flat.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 7,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Denim midi skirt",
+      "cat": "Bottoms",
+      "final_score": 19,
+      "weeks": [
+        19,
+        19,
+        19,
+        19
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "denim midi skirt"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#denimmidiskirt"
+        },
+        "youtube": {
+          "score": 33,
+          "weight": 0.2,
+          "query": "denim midi skirt outfit"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "denim midi skirt"
+        }
+      },
+      "photo": "images/denim-midi-skirt.jpg",
       "insight": "",
       "prev_rank": null,
       "rank": 8,
@@ -549,44 +549,6 @@
       "momentum_pct": 0.0
     },
     {
-      "name": "Bubble hem skirt",
-      "cat": "Dresses",
-      "final_score": 14,
-      "weeks": [
-        14,
-        14,
-        14,
-        14
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "bubble hem skirt"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#bubbleskirt"
-        },
-        "youtube": {
-          "score": 11,
-          "weight": 0.2,
-          "query": "bubble skirt outfit 2026"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "bubble hem skirt"
-        }
-      },
-      "photo": "images/bubble-hem-skirt.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 15,
-      "momentum_pct": 0.0
-    },
-    {
       "name": "Trench coat",
       "cat": "Outerwear",
       "final_score": 14,
@@ -619,6 +581,44 @@
         }
       },
       "photo": "images/trench-coat.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 15,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Oversized blazer",
+      "cat": "Outerwear",
+      "final_score": 14,
+      "weeks": [
+        14,
+        14,
+        14,
+        14
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "oversized blazer women"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#oversizedblazer"
+        },
+        "youtube": {
+          "score": 11,
+          "weight": 0.2,
+          "query": "oversized blazer outfit women"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "oversized blazer women"
+        }
+      },
+      "photo": "images/oversized-blazer.jpg",
       "insight": "",
       "prev_rank": null,
       "rank": 16,
@@ -663,7 +663,83 @@
       "momentum_pct": 0.0
     },
     {
-      "name": "Ballet flat",
+      "name": "Barrel leg jeans",
+      "cat": "Bottoms",
+      "final_score": 12,
+      "weeks": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "barrel leg jeans"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#barreljeans"
+        },
+        "youtube": {
+          "score": 0,
+          "weight": 0.2,
+          "query": "barrel leg jeans outfit"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "barrel leg jeans"
+        }
+      },
+      "photo": "images/barrel-leg-jeans.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 18,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Bubble hem skirt",
+      "cat": "Dresses",
+      "final_score": 12,
+      "weeks": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "bubble hem skirt"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#bubbleskirt"
+        },
+        "youtube": {
+          "score": 0,
+          "weight": 0.2,
+          "query": "bubble skirt outfit 2026"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "bubble hem skirt"
+        }
+      },
+      "photo": "images/bubble-hem-skirt.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 19,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Mary jane heel",
       "cat": "Footwear",
       "final_score": 12,
       "weeks": [
@@ -676,101 +752,25 @@
         "google": {
           "score": 30,
           "weight": 0.4,
-          "keyword": "ballet flat shoes"
+          "keyword": "mary jane heels"
         },
         "tiktok": {
           "score": 0,
           "weight": 0.3,
-          "hashtag": "#balletflats"
+          "hashtag": "#maryjaneshoes"
         },
         "youtube": {
           "score": 0,
           "weight": 0.2,
-          "query": "ballet flats outfit 2026"
+          "query": "mary jane heels outfit"
         },
         "pinterest": {
           "score": 0,
           "weight": 0.1,
-          "keyword": "ballet flat shoes"
+          "keyword": "mary jane heels"
         }
       },
-      "photo": "images/ballet-flat.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 18,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Oversized blazer",
-      "cat": "Outerwear",
-      "final_score": 12,
-      "weeks": [
-        12,
-        12,
-        12,
-        12
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "oversized blazer women"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#oversizedblazer"
-        },
-        "youtube": {
-          "score": 0,
-          "weight": 0.2,
-          "query": "oversized blazer outfit women"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "oversized blazer women"
-        }
-      },
-      "photo": "images/oversized-blazer.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 19,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Tie-front top",
-      "cat": "Tops",
-      "final_score": 12,
-      "weeks": [
-        12,
-        12,
-        12,
-        12
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "tie front top women"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#tiefronttop"
-        },
-        "youtube": {
-          "score": 0,
-          "weight": 0.2,
-          "query": "tie front top outfit"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "tie front top women"
-        }
-      },
-      "photo": "images/tie-front-top.jpg",
+      "photo": "images/mary-jane-heel.jpg",
       "insight": "",
       "prev_rank": null,
       "rank": 20,
