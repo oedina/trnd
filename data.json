@@ -1,7 +1,7 @@
 {
-  "updated_at": "November 09, 2026",
-  "updated_iso": "2026-11-09T19:17:56.097114+00:00",
-  "week_of": "2026-11-09",
+  "updated_at": "November 16, 2026",
+  "updated_iso": "2026-11-16T19:01:26.460412+00:00",
+  "week_of": "2026-11-16",
   "season": "Fall",
   "year": 2026,
   "geo": "US",
@@ -131,14 +131,90 @@
       "momentum_pct": 0.0
     },
     {
+      "name": "Denim midi skirt",
+      "cat": "Bottoms",
+      "final_score": 32,
+      "weeks": [
+        32,
+        32,
+        32,
+        32
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "denim midi skirt"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#denimmidiskirt"
+        },
+        "youtube": {
+          "score": 100,
+          "weight": 0.2,
+          "query": "denim midi skirt outfit"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "denim midi skirt"
+        }
+      },
+      "photo": "images/denim-midi-skirt.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 4,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Mary jane heel",
+      "cat": "Footwear",
+      "final_score": 28,
+      "weeks": [
+        28,
+        28,
+        28,
+        28
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "mary jane heels"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#maryjaneshoes"
+        },
+        "youtube": {
+          "score": 78,
+          "weight": 0.2,
+          "query": "mary jane heels outfit"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "mary jane heels"
+        }
+      },
+      "photo": "images/mary-jane-heel.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 5,
+      "momentum_pct": 0.0
+    },
+    {
       "name": "Broderie top",
       "cat": "Tops",
-      "final_score": 23,
+      "final_score": 25,
       "weeks": [
-        23,
-        23,
-        23,
-        23
+        25,
+        25,
+        25,
+        25
       ],
       "signals": {
         "google": {
@@ -152,7 +228,7 @@
           "hashtag": "#broderietop"
         },
         "youtube": {
-          "score": 56,
+          "score": 67,
           "weight": 0.2,
           "query": "broderie top outfit"
         },
@@ -165,18 +241,18 @@
       "photo": "images/broderie-top.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 4,
+      "rank": 6,
       "momentum_pct": 0.0
     },
     {
       "name": "Tie-front top",
       "cat": "Tops",
-      "final_score": 16,
+      "final_score": 25,
       "weeks": [
-        16,
-        16,
-        16,
-        16
+        25,
+        25,
+        25,
+        25
       ],
       "signals": {
         "google": {
@@ -190,7 +266,7 @@
           "hashtag": "#tiefronttop"
         },
         "youtube": {
-          "score": 22,
+          "score": 67,
           "weight": 0.2,
           "query": "tie front top outfit"
         },
@@ -203,18 +279,18 @@
       "photo": "images/tie-front-top.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 5,
+      "rank": 7,
       "momentum_pct": 0.0
     },
     {
       "name": "Barrel leg jeans",
       "cat": "Bottoms",
-      "final_score": 14,
+      "final_score": 23,
       "weeks": [
-        14,
-        14,
-        14,
-        14
+        23,
+        23,
+        23,
+        23
       ],
       "signals": {
         "google": {
@@ -228,7 +304,7 @@
           "hashtag": "#barreljeans"
         },
         "youtube": {
-          "score": 11,
+          "score": 56,
           "weight": 0.2,
           "query": "barrel leg jeans outfit"
         },
@@ -241,7 +317,45 @@
       "photo": "images/barrel-leg-jeans.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 6,
+      "rank": 8,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Ruched sundress",
+      "cat": "Dresses",
+      "final_score": 23,
+      "weeks": [
+        23,
+        23,
+        23,
+        23
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "ruched sundress"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#rucheddress"
+        },
+        "youtube": {
+          "score": 56,
+          "weight": 0.2,
+          "query": "ruched dress outfit"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "ruched sundress"
+        }
+      },
+      "photo": "images/ruched-sundress.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 9,
       "momentum_pct": 0.0
     },
     {
@@ -279,7 +393,7 @@
       "photo": "images/linen-wide-trousers.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 7,
+      "rank": 10,
       "momentum_pct": 0.0
     },
     {
@@ -317,7 +431,7 @@
       "photo": "images/ballet-flat.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 8,
+      "rank": 11,
       "momentum_pct": 0.0
     },
     {
@@ -355,7 +469,7 @@
       "photo": "images/maxi-slip-dress.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 9,
+      "rank": 12,
       "momentum_pct": 0.0
     },
     {
@@ -393,125 +507,49 @@
       "photo": "images/varsity-jacket.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 10,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Lace trim cami",
-      "cat": "Tops",
-      "final_score": 14,
-      "weeks": [
-        14,
-        14,
-        14,
-        14
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "lace trim camisole"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#lacecami"
-        },
-        "youtube": {
-          "score": 11,
-          "weight": 0.2,
-          "query": "lace cami outfit ideas"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "lace trim camisole"
-        }
-      },
-      "photo": "images/lace-trim-cami.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 11,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Denim midi skirt",
-      "cat": "Bottoms",
-      "final_score": 14,
-      "weeks": [
-        14,
-        14,
-        14,
-        14
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "denim midi skirt"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#denimmidiskirt"
-        },
-        "youtube": {
-          "score": 11,
-          "weight": 0.2,
-          "query": "denim midi skirt outfit"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "denim midi skirt"
-        }
-      },
-      "photo": "images/denim-midi-skirt.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 12,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Trench coat",
-      "cat": "Outerwear",
-      "final_score": 14,
-      "weeks": [
-        14,
-        14,
-        14,
-        14
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "trench coat women spring"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#trenchcoat"
-        },
-        "youtube": {
-          "score": 11,
-          "weight": 0.2,
-          "query": "trench coat outfit spring"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "trench coat women spring"
-        }
-      },
-      "photo": "images/trench-coat.jpg",
-      "insight": "",
-      "prev_rank": null,
       "rank": 13,
       "momentum_pct": 0.0
     },
     {
-      "name": "Ruched sundress",
+      "name": "Butter yellow set",
+      "cat": "Aesthetic",
+      "final_score": 14,
+      "weeks": [
+        14,
+        14,
+        14,
+        14
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "butter yellow matching set"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#butteryellow"
+        },
+        "youtube": {
+          "score": 11,
+          "weight": 0.2,
+          "query": "butter yellow set outfit"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "butter yellow matching set"
+        }
+      },
+      "photo": "images/butter-yellow-set.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 14,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Bubble hem skirt",
       "cat": "Dresses",
       "final_score": 14,
       "weeks": [
@@ -524,63 +562,25 @@
         "google": {
           "score": 30,
           "weight": 0.4,
-          "keyword": "ruched sundress"
+          "keyword": "bubble hem skirt"
         },
         "tiktok": {
           "score": 0,
           "weight": 0.3,
-          "hashtag": "#rucheddress"
+          "hashtag": "#bubbleskirt"
         },
         "youtube": {
           "score": 11,
           "weight": 0.2,
-          "query": "ruched dress outfit"
+          "query": "bubble skirt outfit 2026"
         },
         "pinterest": {
           "score": 0,
           "weight": 0.1,
-          "keyword": "ruched sundress"
+          "keyword": "bubble hem skirt"
         }
       },
-      "photo": "images/ruched-sundress.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 14,
-      "momentum_pct": 0.0
-    },
-    {
-      "name": "Mary jane heel",
-      "cat": "Footwear",
-      "final_score": 14,
-      "weeks": [
-        14,
-        14,
-        14,
-        14
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "mary jane heels"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#maryjaneshoes"
-        },
-        "youtube": {
-          "score": 11,
-          "weight": 0.2,
-          "query": "mary jane heels outfit"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "mary jane heels"
-        }
-      },
-      "photo": "images/mary-jane-heel.jpg",
+      "photo": "images/bubble-hem-skirt.jpg",
       "insight": "",
       "prev_rank": null,
       "rank": 15,
@@ -663,44 +663,6 @@
       "momentum_pct": 0.0
     },
     {
-      "name": "Butter yellow set",
-      "cat": "Aesthetic",
-      "final_score": 12,
-      "weeks": [
-        12,
-        12,
-        12,
-        12
-      ],
-      "signals": {
-        "google": {
-          "score": 30,
-          "weight": 0.4,
-          "keyword": "butter yellow matching set"
-        },
-        "tiktok": {
-          "score": 0,
-          "weight": 0.3,
-          "hashtag": "#butteryellow"
-        },
-        "youtube": {
-          "score": 0,
-          "weight": 0.2,
-          "query": "butter yellow set outfit"
-        },
-        "pinterest": {
-          "score": 0,
-          "weight": 0.1,
-          "keyword": "butter yellow matching set"
-        }
-      },
-      "photo": "images/butter-yellow-set.jpg",
-      "insight": "",
-      "prev_rank": null,
-      "rank": 18,
-      "momentum_pct": 0.0
-    },
-    {
       "name": "Platform mule",
       "cat": "Footwear",
       "final_score": 12,
@@ -735,12 +697,12 @@
       "photo": "images/platform-mule.jpg",
       "insight": "",
       "prev_rank": null,
-      "rank": 19,
+      "rank": 18,
       "momentum_pct": 0.0
     },
     {
-      "name": "Bubble hem skirt",
-      "cat": "Dresses",
+      "name": "Lace trim cami",
+      "cat": "Tops",
       "final_score": 12,
       "weeks": [
         12,
@@ -752,25 +714,63 @@
         "google": {
           "score": 30,
           "weight": 0.4,
-          "keyword": "bubble hem skirt"
+          "keyword": "lace trim camisole"
         },
         "tiktok": {
           "score": 0,
           "weight": 0.3,
-          "hashtag": "#bubbleskirt"
+          "hashtag": "#lacecami"
         },
         "youtube": {
           "score": 0,
           "weight": 0.2,
-          "query": "bubble skirt outfit 2026"
+          "query": "lace cami outfit ideas"
         },
         "pinterest": {
           "score": 0,
           "weight": 0.1,
-          "keyword": "bubble hem skirt"
+          "keyword": "lace trim camisole"
         }
       },
-      "photo": "images/bubble-hem-skirt.jpg",
+      "photo": "images/lace-trim-cami.jpg",
+      "insight": "",
+      "prev_rank": null,
+      "rank": 19,
+      "momentum_pct": 0.0
+    },
+    {
+      "name": "Trench coat",
+      "cat": "Outerwear",
+      "final_score": 12,
+      "weeks": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "signals": {
+        "google": {
+          "score": 30,
+          "weight": 0.4,
+          "keyword": "trench coat women spring"
+        },
+        "tiktok": {
+          "score": 0,
+          "weight": 0.3,
+          "hashtag": "#trenchcoat"
+        },
+        "youtube": {
+          "score": 0,
+          "weight": 0.2,
+          "query": "trench coat outfit spring"
+        },
+        "pinterest": {
+          "score": 0,
+          "weight": 0.1,
+          "keyword": "trench coat women spring"
+        }
+      },
+      "photo": "images/trench-coat.jpg",
       "insight": "",
       "prev_rank": null,
       "rank": 20,
